@@ -1,0 +1,26 @@
+main {
+    /* display: flex; */
+    /* flex-direction: row; */
+    background-color: aqua;
+    height: 800px;
+    width: 1400px;
+}
+
+.my-cards-holder {
+    position: relative;
+    background-color: aquamarine;
+    height: 180px;
+    top: 600px;
+    display: flex;
+    align-items: flex-end;
+    margin: auto;
+}
+
+.card {
+    height: 140px;
+    position: absolute;
+}
+
+.card img {
+    height: 100%;
+}
