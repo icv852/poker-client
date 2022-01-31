@@ -87,22 +87,29 @@ function App() {
       }
       return card
     }))
-    console.log(allCards)
   }
 
   function play() {
     //push my selected cards into a new array
     const mySelectedCards = []
+    const mySelectedCardsAllIndexes = []
     for (let i = 0; i < allCards.length; i++) {
       if(allCards[i].me && allCards[i].selected) {
         mySelectedCards.push(allCards[i])
+        mySelectedCardsAllIndexes.push(allCards[i].allCardsIndex)
       }
     }
     //play the cards and render them in CurrentBiggest
     setCurrentBiggest(mySelectedCards)
 
     //delete the played cards in allCards state
+    setAllCards(prevAllCards => prevAllCards.filter(card => 
+      !mySelectedCardsAllIndexes.includes(card.allCardsIndex)
+    ))    
   }
+
+  //for dev
+  console.log(allCards)
 
   return (
     <main>
