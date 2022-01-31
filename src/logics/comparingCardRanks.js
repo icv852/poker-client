@@ -35,6 +35,17 @@ export default function comparingCardRanks(mine, biggest) {
         else return true      
     }
 
+    //When I play 3 cards:
+    if(mine.length === 3) {
+        //if mine is not triple return false
+        if(!(mine[0].number === mine[1].number && mine[1].number === mine[2].number)) return false
+        //if biggest not exists return true
+        if (biggest.length === 0) return true 
+        //compare number
+        if(biggest[0].number > mine[0].number) return false
+        else return true
+    }
+
 
 
     return true
