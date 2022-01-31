@@ -13,7 +13,7 @@ main {
     height: 180px;
     top: 600px;
     display: flex;
-    /* align-items: flex-end; */
+    align-items: flex-end;
     margin: auto;
 }
 
@@ -26,7 +26,9 @@ main {
     height: 100%;
 }
 
-.currentBiggest {
+.currentBiggestContainer {
+    display: flex;
+    justify-content: center;
     position: absolute;
     height: 145px;
     width: 500px;

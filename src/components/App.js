@@ -1,10 +1,11 @@
 import React from 'react'
-import CurrentBiggest from './CurrentBiggest'
+import CurrentBiggestContainer from './CurrentBiggest'
 import MyCards from './MyCards'
 
 function App() {
   const me = 0
   const [allCards, setAllCards] = React.useState(generateNewCards())
+  const [currentBiggest, setCurrentBiggest] = React.useState([])
 
   
 
@@ -66,8 +67,6 @@ function App() {
     }
     return deck
   }
-
-  // console.log(allCards)
  
   //put my cards in to a new array
   let myCards = []
@@ -80,7 +79,6 @@ function App() {
     }
   }
 
-  // console.log(myCards)
 
   function selectCard(index) {    
     setAllCards(prevAllCards => prevAllCards.map(card => {
@@ -93,12 +91,22 @@ function App() {
   }
 
   function play() {
-    console.log("play!")
+    //push my selected cards into a new array
+    const mySelectedCards = []
+    for (let i = 0; i < allCards.length; i++) {
+      if(allCards[i].me && allCards[i].selected) {
+        mySelectedCards.push(allCards[i])
+      }
+    }
+    //play the cards and render them in CurrentBiggest
+    setCurrentBiggest(mySelectedCards)
+
+    //delete the played cards in allCards state
   }
 
   return (
     <main>
-      <CurrentBiggest />
+      <CurrentBiggestContainer cards={currentBiggest}/>
       <MyCards cards={myCards} selectCard={selectCard}/>
       <div className="button play" onClick={play}>Play</div>
     </main>
