@@ -19,13 +19,13 @@ export default function comparingCardRanks(mine, biggest) {
 
     //when I play 2 cards:
     if(mine.length === 2) {
+        //sort my cards based on suits
+        mine.sort((a, b) => a.suit - b.suit)   
         //if mine is not a pair return false
         if(mine[0].number !== mine[1].number) return false    
         //if biggest not exists return true
-        if (biggest.length === 0) return true       
-        
-        //sort my cards based on suits
-        mine.sort((a, b) => a.suit < b.suit)    
+        if (biggest.length === 0) return true      
+                
         //compare number
         if(biggest[0].number > mine[0].number) return false
         //compare suit when same number
@@ -37,6 +37,8 @@ export default function comparingCardRanks(mine, biggest) {
 
     //When I play 3 cards:
     if(mine.length === 3) {
+        //sort my cards based on suits
+        mine.sort((a, b) => a.suit - b.suit) 
         //if mine is not triple return false
         if(!(mine[0].number === mine[1].number && mine[1].number === mine[2].number)) return false
         //if biggest not exists return true
@@ -46,7 +48,30 @@ export default function comparingCardRanks(mine, biggest) {
         else return true
     }
 
+    //When I play 5 cards:
+    if(mine.length === 5) {
+        //sort the cards based on number (from small to big)
+        mine.sort((a, b) => a.number - b.number)
+        console.log(mine)
 
+        //create two arrays to store my cards numbers and suits
+        const myCardNumbers = []
+        const myCardSuits = []
+        //fill the above 2 new arrays
+        for (let i = 0; i < mine.length; i++) {
+            myCardNumbers.push(mine[i].number)
+            myCardSuits.push(mine[i].suit)
+        }
+
+        
+
+
+
+
+        //determine my card rank
+            //check if there are cards with same number
+
+    }
 
     return true
 }
