@@ -7,9 +7,13 @@ export default function MyCards(props) {
             <MyCard key={card.allCardsIndex} selectCard={props.selectCard} card={card} />    
         )
     })
+
+    const myCardsStyles = {
+        width: props.cards.length * 60,
+    }
     
     return (
-        <div className="my-cards-holder" style={{width: props.cards.length * 60}}>
+        <div className="my-cards-holder" style={myCardsStyles}>
             {cardsElements}
         </div>
     )

@@ -1,4 +1,5 @@
 import React from 'react'
+import CurrentBiggest from './CurrentBiggest'
 import MyCards from './MyCards'
 
 function App() {
@@ -91,9 +92,15 @@ function App() {
     console.log(allCards)
   }
 
+  function play() {
+    console.log("play!")
+  }
+
   return (
     <main>
+      <CurrentBiggest />
       <MyCards cards={myCards} selectCard={selectCard}/>
+      <div className="play" onClick={play}>Play</div>
     </main>
   );
 }

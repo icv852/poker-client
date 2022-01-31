@@ -4,15 +4,16 @@ main {
     background-color: aqua;
     height: 800px;
     width: 1400px;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
 }
 
 .my-cards-holder {
-    position: relative;
+    position: absolute;
     background-color: aquamarine;
     height: 180px;
     top: 600px;
     display: flex;
-    align-items: flex-end;
+    /* align-items: flex-end; */
     margin: auto;
 }
 
@@ -23,4 +24,25 @@ main {
 
 .card img {
     height: 100%;
+}
+
+.currentBiggest {
+    position: absolute;
+    height: 145px;
+    width: 500px;
+    background-color: blueviolet;
+    top: 290px;
+    left: 450px;
+}
+
+.play {
+    display: flex;
+    position: absolute;
+    width: 100px;
+    height: 70px;
+    background-color: brown;
+    justify-content: center;
+    align-items: center;
+    top: 470px;
+    left: 800px;
 }
