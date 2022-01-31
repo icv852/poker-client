@@ -35,7 +35,7 @@ main {
     left: 450px;
 }
 
-.play {
+.button {
     display: flex;
     position: absolute;
     width: 100px;
@@ -43,6 +43,9 @@ main {
     background-color: brown;
     justify-content: center;
     align-items: center;
+}
+
+.play {    
     top: 470px;
     left: 800px;
 }

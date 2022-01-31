@@ -100,7 +100,7 @@ function App() {
     <main>
       <CurrentBiggest />
       <MyCards cards={myCards} selectCard={selectCard}/>
-      <div className="play" onClick={play}>Play</div>
+      <div className="button play" onClick={play}>Play</div>
     </main>
   );
 }
