@@ -1,4 +1,5 @@
 export default function comparingCardRanks(mine, biggest) {
+
     //check if the number of my cards is valid (1,2,3 or 5)
     const validNumbersOfCards = [1, 2, 3, 5];
     if (!validNumbersOfCards.includes(mine.length)) return false
@@ -49,10 +50,22 @@ export default function comparingCardRanks(mine, biggest) {
     }
 
     //When I play 5 cards:
-    if(mine.length === 5) {
+    if(mine.length === 5) {        
+        //flush ranks for 5 cards:
+            // straight: 1
+            // flush: 2
+            // full house: 3
+            // four of a kind: 4
+            // straight flush: 5
+        
+        //initiate a rank object
+        let rank = {
+            rankIndex: -1,
+            indicator: null
+        }
+
         //sort the cards based on number (from small to big)
         mine.sort((a, b) => a.number - b.number)
-        console.log(mine)
 
         //create two arrays to store my cards numbers and suits
         const myCardNumbers = []
@@ -63,15 +76,106 @@ export default function comparingCardRanks(mine, biggest) {
             myCardSuits.push(mine[i].suit)
         }
 
-        
+        //loop over myCardNumbers array and check if there are same numbers
+        let lastNum = -1
+        let sameNumsCount = 0
+        let sameNumsFound = []
 
+        for (let i = 0; i < myCardNumbers.length + 1; i++) { //in last iteration myCardNumbers[i] = undefined
+            if(myCardNumbers[i] === lastNum) {
+                sameNumsCount++
+            } 
+            else if(sameNumsCount !== 0) {
+                sameNumsFound.push({num: lastNum, count: sameNumsCount + 1})
+                sameNumsCount = 0
+            }
+            
+            lastNum = myCardNumbers[i]
+        }
 
+        //inspect the sameNumsFound array
+        //check if 'Four of a Kind'
+        if(sameNumsFound.length === 1 && sameNumsFound[0].count === 4) {            
+            rank.rankIndex = 4
+            rank.indicator = sameNumsFound[0].num
+        }
+        //check if 'full house'
+        if(sameNumsFound.length === 2) 
+        {
+            if((sameNumsFound[0].count === 2 && sameNumsFound[1].count === 3) || 
+                (sameNumsFound[0].count === 3 && sameNumsFound[1].count === 2))
+            {
+                rank.rankIndex = 3
+                for (let i = 0; i < sameNumsFound.length; i++) {
+                    if(sameNumsFound[i].count === 3) {
+                        rank.indicator = sameNumsFound[i].num
+                    }
+                }
+            }
+        }
 
+        //check if all suits are same and return a boolean
+        let sameSuits = myCardSuits.every(suit => suit === myCardSuits[0])        
 
-        //determine my card rank
-            //check if there are cards with same number
+        //check if it is straight
+        let isStraight = false
+        let isA2Straight = false
+        let is2Straight = false
+        //first check if the last element is 'Big 2' and check for the two special cases
+        if(myCardNumbers[4] === 15) {
+            let combination1 = [3, 4, 5, 14, 15]
+            let combination2 = [3, 4, 5, 6, 15]
+            if (myCardNumbers.every((v, i) => v === combination1[i])) {
+                isStraight = true
+                isA2Straight = true
+            }
+            else if (myCardNumbers.every((v, i) => v === combination2[i])){
+                isStraight = true
+                is2Straight = true
+            }
+        }
+        //loop over myCardNums array and check if the numbers are consecutive
+        let lastNumber = myCardNumbers[0]
+        let straightCounter = 0
+        for(let i = 1; i < myCardNumbers.length; i++) { //start the loop from the second element
+            if(myCardNumbers[i] === lastNumber + 1) {
+                straightCounter++
+            }
+            lastNumber = myCardNumbers[i]
+        }
+        if (straightCounter === 4) isStraight = true
 
-    }
+        //using sameSuits and isStraight testing results from above, flush, straight and straight flush can be determined
+        //check for flush
+        if (sameSuits && !isStraight) {
+            rank.rankIndex = 2
+            rank.indicator = {
+                num: myCardNumbers[4],
+                suit: myCardSuits[4]
+            }
+        }
+        //check for straight and straight flush
+            //straight internal ranks:
+                //A2 straight: 3
+                //2 straight: 2
+                //other straights: 1
+        if (isStraight) {
+            rank.indicator = {
+                num: myCardNumbers[4],
+                suit: myCardSuits[4]
+            }
+            //check if A2 or 2 straights
+            if(isA2Straight) rank.indicator.straightRank = 3
+            else if(is2Straight) rank.indicator.straightRank = 2
+            else rank.indicator.straightRank = 1
+            //check if straight flush
+            if(sameSuits) rank.rankIndex = 5
+            else rank.rankIndex = 1
+        }
+        //all tests done and return result
+        if(rank.rankIndex < 0) return false
+        console.log(rank)
+    }        
 
     return true
 }
