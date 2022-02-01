@@ -9,6 +9,7 @@ function App() {
   const me = 0
   const [allCards, setAllCards] = React.useState(generateNewCards(me))
   const [currentBiggest, setCurrentBiggest] = React.useState([])
+  const [currentBiggestRank, setCurrentBiggestRank] = React.useState([]) //for 5 cards comparison only
   
  
   //put my cards in to a new array called 'myCards'
@@ -44,10 +45,16 @@ function App() {
     }
 
     //comparing mySelectedCards with currentBiggest, returning boolean
-    const bigger = comparingCardRanks(mySelectedCards, currentBiggest)
-
+    const comparison = comparingCardRanks(mySelectedCards, currentBiggest, currentBiggestRank)
+    
     //if my cards are bigger, do the following
-    if (bigger) {
+    if (comparison) {
+      
+      //if 5 cards, update the currentBiggestRank state
+      if (comparison.rank) {
+        setCurrentBiggestRank(comparison.rank)
+      }      
+
       //play the cards and render them in CurrentBiggest
       setCurrentBiggest(mySelectedCards)
 
@@ -57,9 +64,6 @@ function App() {
       )) 
     }       
   }
-
-  //for dev
-  console.log(allCards)
 
   return (
     <main>

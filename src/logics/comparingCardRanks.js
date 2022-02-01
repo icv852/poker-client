@@ -1,4 +1,4 @@
-export default function comparingCardRanks(mine, biggest) {
+export default function comparingCardRanks(mine, biggest, biggestRank) {
 
     //check if the number of my cards is valid (1,2,3 or 5)
     const validNumbersOfCards = [1, 2, 3, 5];
@@ -33,7 +33,7 @@ export default function comparingCardRanks(mine, biggest) {
         else if(biggest[0].number === mine[0].number) {
             if(biggest[1].suit > mine[1].suit) return false
         }
-        else return true      
+        else return true  
     }
 
     //When I play 3 cards:
@@ -56,9 +56,9 @@ export default function comparingCardRanks(mine, biggest) {
             // flush: 2
             // full house: 3
             // four of a kind: 4
-            // straight flush: 5
-        
-        //initiate a rank object
+            // straight flush: 5       
+
+        //initiate a rank object (only used for 5)
         let rank = {
             rankIndex: -1,
             indicator: null
@@ -172,10 +172,33 @@ export default function comparingCardRanks(mine, biggest) {
             if(sameSuits) rank.rankIndex = 5
             else rank.rankIndex = 1
         }
-        //all tests done and return result
+        //all tests done and return false if not valid combination
         if(rank.rankIndex < 0) return false
-        console.log(rank)
+        //if biggest not exists return true
+        if(biggest.length === 0) return ({bigger: true, rank})
+        //compare my card rank with the currentBiggestRank 
+        if(rank.rankIndex < biggestRank.rankIndex) return false
+        else if(rank.rankIndex > biggestRank.rankIndex) return ({bigger: true, rank})
+        //if same rankIndex, do further comparison
+            //comparison for 'full house' or 'four of a kind'
+        else if(rank.rankIndex === 3 || rank.rankIndex === 4) {
+            if(rank.indicator < biggestRank.indicator) return false
+            else return ({bigger: true, rank})
+        }
+            //comparison for 'flush'
+        else if(rank.rankIndex === 2) {
+            if(rank.indicator.num < biggestRank.indicator.num) return false
+            else if(rank.indicator.num === biggestRank.indicator.num && rank.indicator.suit < biggestRank.indicator.suit) return false
+            else return ({bigger: true, rank})
+        }
+            //comparison for 'straight' or 'straight flush'
+        else if(rank.rankIndex === 1 || rank.rankIndex === 5) {
+            if(rank.indicator.straightRank < biggestRank.indicator.straightRank) return false
+            else if(rank.indicator.straightRank > biggestRank.indicator.straightRank) return ({bigger: true, rank})
+                //compare nums and suits when they have same straightRank
+            else if(rank.indicator.num < biggestRank.indicator.num) return false
+            else if(rank.indicator.num === biggestRank.indicator.num && rank.indicator.suit < biggestRank.indicator.suit) return false
+            else return ({bigger: true, rank})
+        }
     }        
-
-    return true
 }
