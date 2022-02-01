@@ -8,6 +8,7 @@ import comparingCardRanks from '../logics/comparingCardRanks'
 import RightCards from './RightCards'
 
 
+
 function App() {
   const me = 0
   const [allCards, setAllCards] = React.useState(generateNewCards(me))
@@ -15,8 +16,11 @@ function App() {
   const [currentBiggestRank, setCurrentBiggestRank] = React.useState([]) //for 5 cards comparison only
   const [players, setPlayers] = React.useState(createPlayers())
 
+  //FOR DEV testing with socket
+  const socket = io("ws://localhost:3000");
 
-  //create players objects FOR DEV
+
+  //FOR DEV create players objects 
   function createPlayers() {
     let newPlayers = []
     for (let i = 0; i < 4; i++) {
