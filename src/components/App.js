@@ -11,7 +11,23 @@ function App() {
   const [allCards, setAllCards] = React.useState(generateNewCards(me))
   const [currentBiggest, setCurrentBiggest] = React.useState([])
   const [currentBiggestRank, setCurrentBiggestRank] = React.useState([]) //for 5 cards comparison only
-  
+  const [players, setPlayers] = React.useState(createPlayers())
+
+
+  //create players objects FOR DEV
+  function createPlayers() {
+    let newPlayers = []
+    for (let i = 0; i < 4; i++) {
+      newPlayers.push({
+        playerId: i,
+        numberOfHands: 13
+      })
+    }
+    return newPlayers
+  }
+
+
+  console.log(players)
  
   //put my cards in to a new array called 'myCards'
   let myCards = []
@@ -63,6 +79,9 @@ function App() {
       setAllCards(prevAllCards => prevAllCards.filter(card => 
         !mySelectedCardsAllIndexes.includes(card.allCardsIndex)
       )) 
+
+      //update the numberOfHands state to refresh the UI
+
     }       
   }
 
@@ -70,7 +89,7 @@ function App() {
     <main>
       <CurrentBiggestContainer cards={currentBiggest}/>
       <MyCards cards={myCards} selectCard={selectCard}/>
-      <OppositeCards />
+      <OppositeCards handsNum={players[2].numberOfHands} />
       <div className="button play" onClick={play}>Play</div>
     </main>
   );
