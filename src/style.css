@@ -17,6 +17,16 @@ main {
     margin: auto;
 }
 
+.opposite-cards-holder {
+    position: absolute;
+    background-color:coral;
+    height: 160px;
+    top: 20px;
+    display: flex;
+    align-items: flex-start;
+    margin: auto;
+}
+
 .card {
     height: 140px;
     position: absolute;

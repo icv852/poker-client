@@ -1,6 +1,7 @@
 import React from 'react'
 import CurrentBiggestContainer from './CurrentBiggest'
 import MyCards from './MyCards'
+import OppositeCards from './OppositeCards'
 import generateNewCards from '../logics/generateNewCards'
 import comparingCardRanks from '../logics/comparingCardRanks'
 
@@ -69,6 +70,7 @@ function App() {
     <main>
       <CurrentBiggestContainer cards={currentBiggest}/>
       <MyCards cards={myCards} selectCard={selectCard}/>
+      <OppositeCards />
       <div className="button play" onClick={play}>Play</div>
     </main>
   );
