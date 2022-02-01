@@ -26,7 +26,14 @@ main {
 .left-cards-holder {
     position: absolute;
     background-color:greenyellow;
-    left: 30px;
+    left: 60px;
+    top: 150px;
+}
+
+.right-cards-holder {
+    position: absolute;
+    background-color:greenyellow;
+    left: 1250px;
     top: 150px;
 }
 

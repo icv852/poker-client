@@ -2,22 +2,22 @@ import React from 'react'
 import CardBack from './CardBack'
 import { nanoid } from 'nanoid'
 
-export default function OppositeCards(props) {
+export default function RightCards(props) {
     const cardsElements = function() {
         let cardsArray = []
         for (let i = 0; i < props.handsNum; i++) {
-            cardsArray.push(<CardBack key={nanoid()} style={{left: i * 40}}/>)
+            cardsArray.push(<CardBack key={nanoid()} style={{top: i * 30}}/>)
         }
         return cardsArray
     }
 
-    const oppositeCardsStyles = {
-        width: props.handsNum * 60,
-        left: `${400 + 350 / props.handsNum}px`
+    const rightCardsStyles = {        
+        height: props.handsNum * 90,
+        top: `${120 + 250 / props.handsNum}px`
     }
     
     return (
-        <div className="opposite-cards-holder" style={oppositeCardsStyles}>
+        <div className="right-cards-holder" style={rightCardsStyles} >
             {cardsElements()}
         </div>
     )

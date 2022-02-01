@@ -5,6 +5,7 @@ import OppositeCards from './OppositeCards'
 import LeftCards from './LeftCards'
 import generateNewCards from '../logics/generateNewCards'
 import comparingCardRanks from '../logics/comparingCardRanks'
+import RightCards from './RightCards'
 
 
 function App() {
@@ -92,6 +93,7 @@ function App() {
       <MyCards cards={myCards} selectCard={selectCard}/>
       <OppositeCards handsNum={players[2].numberOfHands} />
       <LeftCards handsNum={players[3].numberOfHands} />
+      <RightCards handsNum={players[1].numberOfHands} />
       <div className="button play" onClick={play}>Play</div>
     </main>
   );

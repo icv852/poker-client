@@ -13,7 +13,7 @@ export default function LeftCards(props) {
 
     const leftCardsStyles = {        
         height: props.handsNum * 90,
-        top: `${120 + 170 / props.handsNum}px`
+        top: `${120 + 250 / props.handsNum}px`
     }
     
     return (

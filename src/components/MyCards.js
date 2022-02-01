@@ -10,7 +10,7 @@ export default function MyCards(props) {
 
     const myCardsStyles = {
         width: props.cards.length * 60, 
-        left: `${400 + 300 / props.cards.length}px`
+        left: `${400 + 350 / props.cards.length}px`
     }
     
     return (
