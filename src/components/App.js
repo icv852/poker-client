@@ -44,12 +44,12 @@ function App() {
       }
     }
 
-    //comparing mySelectedCards with currentBiggest, returning boolean
+    //comparing mySelectedCards with currentBiggest, returning boolean (if 5-card case returning an object with indicator)
     const comparison = comparingCardRanks(mySelectedCards, currentBiggest, currentBiggestRank)
     
     //if my cards are bigger, do the following
     if (comparison) {
-      
+
       //if 5 cards, update the currentBiggestRank state
       if (comparison.rank) {
         setCurrentBiggestRank(comparison.rank)
