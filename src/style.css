@@ -20,11 +20,14 @@ main {
 .opposite-cards-holder {
     position: absolute;
     background-color:coral;
-    height: 160px;
     top: 20px;
-    display: flex;
-    align-items: flex-start;
-    margin: auto;
+}
+
+.left-cards-holder {
+    position: absolute;
+    background-color:greenyellow;
+    left: 30px;
+    top: 150px;
 }
 
 .card {
