@@ -9,34 +9,39 @@ import LeftCards from './LeftCards'
 import generateNewCards from '../logics/generateNewCards'
 import comparingCardRanks from '../logics/comparingCardRanks'
 import RightCards from './RightCards'
+import Waiting from './Waiting'
 
 //construct a new socket
 const socket = io("http://localhost:8080");
 
 
 function App() {
-  const [me, setMe] = React.useState('')
+  const [me, setMe] = React.useState(0) //FOR DEV
   const [allCards, setAllCards] = React.useState(generateNewCards(me))
   const [currentBiggest, setCurrentBiggest] = React.useState([])
   const [currentBiggestRank, setCurrentBiggestRank] = React.useState([]) //for 5 cards comparison only
   const [players, setPlayers] = React.useState([])
+
+  const [isWaiting, setIsWaiting] = React.useState(false)
+  const [isStart, setIsStart] = React.useState(false)
+ 
 
 
   //FOR DEV testing with socket
   
 
   React.useEffect(() => {    
-    // const socket = io("http://localhost:8080");
     //connect to server
     socket.on("connect", () => {
       console.log(`You are connected! id:${socket.id}`)
     })
     // //listen for anyone successfully joining a room
-    socket.on("joined", () => {console.log('you joined a room!')})
+    socket.on("waiting", () => {setIsWaiting(true)})
     // //listen for room filled
     socket.on("roomFilled", (roomInfo) => {
+      setIsWaiting(false)
       setPlayers(roomInfo)
-      console.log("your room is filled!")      
+      setIsStart(true)
     })
     
     
@@ -53,16 +58,16 @@ function App() {
   // console.log(players)
 
   //FOR DEV create players objects 
-  function createPlayers() {
-    let newPlayers = []
-    for (let i = 0; i < 4; i++) {
-      newPlayers.push({
-        playerId: i,
-        numberOfHands: 13
-      })
-    }
-    return newPlayers
-  }
+  // function createPlayers() {
+  //   let newPlayers = []
+  //   for (let i = 0; i < 4; i++) {
+  //     newPlayers.push({
+  //       playerId: i,
+  //       numberOfHands: 13
+  //     })
+  //   }
+  //   return newPlayers
+  // }
   
  
   //put my cards in to a new array called 'myCards'
@@ -120,18 +125,27 @@ function App() {
 
     }       
   }
+  
 
   
 
   return (
     <main>
-      <Login socket={socket} />
-      {/* <CurrentBiggestContainer cards={currentBiggest}/>
-      <MyCards cards={myCards} selectCard={selectCard}/>
-      <OppositeCards handsNum={players[2].numberOfHands} />
-      <LeftCards handsNum={players[3].numberOfHands} />
-      <RightCards handsNum={players[1].numberOfHands} />
-      <div className="button play" onClick={play}>Play</div> */}
+      {(!isWaiting && !isStart) ? <Login socket={socket} /> : ""}
+      {isWaiting ? <Waiting /> : ""} 
+      {isStart ? 
+      <div>
+        <CurrentBiggestContainer cards={currentBiggest}/>
+        <MyCards cards={myCards} selectCard={selectCard}/>
+        <OppositeCards handsNum={players[2].numberOfHands} />
+        <LeftCards handsNum={players[3].numberOfHands} />
+        <RightCards handsNum={players[1].numberOfHands} />
+        {/* <OppositeCards handsNum={13} />
+        <LeftCards handsNum={13} />
+        <RightCards handsNum={13} /> */}
+        <div className="button play" onClick={play}>Play</div>
+      </div> 
+      : ""}
     </main>
   );
 }
