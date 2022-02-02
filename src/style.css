@@ -71,3 +71,15 @@ main {
     top: 470px;
     left: 800px;
 }
+
+.loginForm {
+    width: 50%;
+    margin: auto;
+    padding-top: 200px;
+    display: flex;
+    flex-direction: column;
+}
+
+.loginButton {
+    margin: auto;
+}

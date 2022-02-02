@@ -1,5 +1,7 @@
 import React from 'react'
 import { io } from 'socket.io-client'
+
+import Login from './Login'
 import CurrentBiggestContainer from './CurrentBiggest'
 import MyCards from './MyCards'
 import OppositeCards from './OppositeCards'
@@ -41,6 +43,16 @@ function App() {
 
 
   console.log(players)
+
+
+
+
+
+  //Handle login
+  function updateLogin() {
+    console.log("login!")
+  }
+
  
   //put my cards in to a new array called 'myCards'
   let myCards = []
@@ -100,12 +112,13 @@ function App() {
 
   return (
     <main>
-      <CurrentBiggestContainer cards={currentBiggest}/>
+      <Login updateLogin={updateLogin} />
+      {/* <CurrentBiggestContainer cards={currentBiggest}/>
       <MyCards cards={myCards} selectCard={selectCard}/>
       <OppositeCards handsNum={players[2].numberOfHands} />
       <LeftCards handsNum={players[3].numberOfHands} />
       <RightCards handsNum={players[1].numberOfHands} />
-      <div className="button play" onClick={play}>Play</div>
+      <div className="button play" onClick={play}>Play</div> */}
     </main>
   );
 }
