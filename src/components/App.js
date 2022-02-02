@@ -1,4 +1,5 @@
 import React from 'react'
+import { io } from 'socket.io-client'
 import CurrentBiggestContainer from './CurrentBiggest'
 import MyCards from './MyCards'
 import OppositeCards from './OppositeCards'
@@ -6,6 +7,7 @@ import LeftCards from './LeftCards'
 import generateNewCards from '../logics/generateNewCards'
 import comparingCardRanks from '../logics/comparingCardRanks'
 import RightCards from './RightCards'
+
 
 
 
@@ -17,8 +19,13 @@ function App() {
   const [players, setPlayers] = React.useState(createPlayers())
 
   //FOR DEV testing with socket
-  const socket = io("ws://localhost:3000");
+  const socket = io("http://localhost:8080");
+  socket.on("connect", () => {
+    console.log(`You connected with id: ${socket.id}`)
+  })
+  socket.emit('play', players)
 
+  
 
   //FOR DEV create players objects 
   function createPlayers() {
