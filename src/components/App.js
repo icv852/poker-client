@@ -10,7 +10,8 @@ import generateNewCards from '../logics/generateNewCards'
 import comparingCardRanks from '../logics/comparingCardRanks'
 import RightCards from './RightCards'
 
-
+//construct a new socket
+const socket = io("http://localhost:8080");
 
 
 function App() {
@@ -19,33 +20,36 @@ function App() {
   const [currentBiggest, setCurrentBiggest] = React.useState([])
   const [currentBiggestRank, setCurrentBiggestRank] = React.useState([]) //for 5 cards comparison only
   const [players, setPlayers] = React.useState([])
-  const [isStart, setIsStart] = React.useState(false)
+
 
   //FOR DEV testing with socket
-  const socket = io("http://localhost:8080");
+  
 
-  React.useEffect(function() {    
+  React.useEffect(() => {    
+    // const socket = io("http://localhost:8080");
     //connect to server
     socket.on("connect", () => {
       console.log(`You are connected! id:${socket.id}`)
     })
     // //listen for anyone successfully joining a room
-    socket.on("joined", (roomInfo) => {
-      // setPlayers(roomInfo)
-      console.log(roomInfo)
-    })
+    socket.on("joined", () => {console.log('you joined a room!')})
     // //listen for room filled
-    socket.on("roomFilled", () => {
-      // setIsStart(true)
-      console.log("your room is filled!")
+    socket.on("roomFilled", (roomInfo) => {
+      setPlayers(roomInfo)
+      console.log("your room is filled!")      
     })
     
-  }, [socket])
+    
+    return () => {
+      socket.removeAllListeners()
+    }
+  }, [])
 
   
 
   
   //FOR DEV
+  console.log(players)
   // console.log(players)
 
   //FOR DEV create players objects 
@@ -116,6 +120,8 @@ function App() {
 
     }       
   }
+
+  
 
   return (
     <main>
