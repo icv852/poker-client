@@ -14,7 +14,7 @@ import RightCards from './RightCards'
 
 
 function App() {
-  const me = 0
+  const [me, setMe] = React.useState('')
   const [allCards, setAllCards] = React.useState(generateNewCards(me))
   const [currentBiggest, setCurrentBiggest] = React.useState([])
   const [currentBiggestRank, setCurrentBiggestRank] = React.useState([]) //for 5 cards comparison only
@@ -22,11 +22,15 @@ function App() {
 
   //FOR DEV testing with socket
   const socket = io("http://localhost:8080");
-  socket.on("connect", () => {
-    console.log(`You connected with id: ${socket.id}`)
-  })
-  socket.emit('play', players)
 
+  React.useEffect(function() {
+    
+    //connect to server
+    socket.on("connect", () => {
+      console.log(`You connected with id: ${socket.id}`)
+    })
+  }, [socket])
+  
   
 
   //FOR DEV create players objects 
@@ -40,19 +44,7 @@ function App() {
     }
     return newPlayers
   }
-
-
-  console.log(players)
-
-
-
-
-
-  //Handle login
-  function updateLogin(name, room) {
-    console.log(name, room)
-  }
-
+  
  
   //put my cards in to a new array called 'myCards'
   let myCards = []
@@ -112,7 +104,7 @@ function App() {
 
   return (
     <main>
-      <Login updateLogin={updateLogin} />
+      <Login socket={socket} />
       {/* <CurrentBiggestContainer cards={currentBiggest}/>
       <MyCards cards={myCards} selectCard={selectCard}/>
       <OppositeCards handsNum={players[2].numberOfHands} />
