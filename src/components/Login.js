@@ -7,11 +7,8 @@ export default function Login(props) {
 
     function handleSubmit(e){
         e.preventDefault();
-
-        // props.updateLogin()
-
-        console.log(nameRef.current.value)
-        console.log(roomRef.current.value)      
+        
+        props.updateLogin(nameRef.current.value, roomRef.current.value)
     }
 
     

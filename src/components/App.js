@@ -49,8 +49,8 @@ function App() {
 
 
   //Handle login
-  function updateLogin() {
-    console.log("login!")
+  function updateLogin(name, room) {
+    console.log(name, room)
   }
 
  
