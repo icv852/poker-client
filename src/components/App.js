@@ -18,20 +18,35 @@ function App() {
   const [allCards, setAllCards] = React.useState(generateNewCards(me))
   const [currentBiggest, setCurrentBiggest] = React.useState([])
   const [currentBiggestRank, setCurrentBiggestRank] = React.useState([]) //for 5 cards comparison only
-  const [players, setPlayers] = React.useState(createPlayers())
+  const [players, setPlayers] = React.useState([])
+  const [isStart, setIsStart] = React.useState(false)
 
   //FOR DEV testing with socket
   const socket = io("http://localhost:8080");
 
-  React.useEffect(function() {
-    
+  React.useEffect(function() {    
     //connect to server
     socket.on("connect", () => {
-      console.log(`You connected with id: ${socket.id}`)
+      console.log(`You are connected! id:${socket.id}`)
     })
+    // //listen for anyone successfully joining a room
+    socket.on("joined", (roomInfo) => {
+      // setPlayers(roomInfo)
+      console.log(roomInfo)
+    })
+    // //listen for room filled
+    socket.on("roomFilled", () => {
+      // setIsStart(true)
+      console.log("your room is filled!")
+    })
+    
   }, [socket])
+
   
+
   
+  //FOR DEV
+  // console.log(players)
 
   //FOR DEV create players objects 
   function createPlayers() {
