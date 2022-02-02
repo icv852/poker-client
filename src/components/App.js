@@ -43,6 +43,9 @@ function App() {
       setPlayers(roomInfo)
       setIsStart(true)
     })
+    socket.on("assignPlayerId", (pid) => {
+      console.log('my pid: ', pid)
+    })
     
     
     return () => {
@@ -140,9 +143,6 @@ function App() {
         <OppositeCards handsNum={players[2].numberOfHands} />
         <LeftCards handsNum={players[3].numberOfHands} />
         <RightCards handsNum={players[1].numberOfHands} />
-        {/* <OppositeCards handsNum={13} />
-        <LeftCards handsNum={13} />
-        <RightCards handsNum={13} /> */}
         <div className="button play" onClick={play}>Play</div>
       </div> 
       : ""}
