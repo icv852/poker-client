@@ -74,6 +74,11 @@ function App() {
 
       setIsStart(true) //start the game after all variables are confirmed
     })
+
+    //decide the first round player
+    socket.on("decideFirstRoundPlayer", player => {
+      console.log("Diamond 3 owner is: ", player)
+    })
     
     
     return () => {
