@@ -100,50 +100,8 @@ function App() {
   }, [])
 
 
-    //////////////////////////////////////////////////
-    //FOR DEV
-   //put my cards in to a new array called 'myCards'
-  //  let myCards = []
-  //  let myCardsIndex = 0;
-  //  for (let i = 0; i < allCards.length; i++) {
-  //    if(allCards[i].me === true) {
-  //      myCards.push(allCards[i]);
-  //      myCards[myCardsIndex]['myCardsIndex'] = myCardsIndex;
-  //      myCardsIndex++;
-  //    }
-  //  }
-    //////////////////////////////////////////////////
-  
-  //FOR DEV
-  console.log(players)
-  console.log(me)
-  console.log(opponents)
   // console.log(players)
 
-  //FOR DEV create players objects 
-  // function createPlayers() {
-  //   let newPlayers = []
-  //   for (let i = 0; i < 4; i++) {
-  //     newPlayers.push({
-  //       playerId: i,
-  //       numberOfHands: 13
-  //     })
-  //   }
-  //   return newPlayers
-  // }
-  
- 
- 
-
-  //OLD FRONT END VER.
-  // function selectCard(index) {    
-  //   setAllCards(prevAllCards => prevAllCards.map(card => {
-  //     if (card.allCardsIndex === index) {
-  //       return {...card, selected: !card.selected}
-  //     }
-  //     return card
-  //   }))
-  // }
 
   function selectCard(index) {
     setMyCards(prevMyCards => prevMyCards.map(card => {
@@ -158,10 +116,10 @@ function App() {
     //push my selected cards into a new array
     const mySelectedCards = []
     const mySelectedCardsAllIndexes = []
-    for (let i = 0; i < allCards.length; i++) {
-      if(allCards[i].me && allCards[i].selected) {
-        mySelectedCards.push(allCards[i])
-        mySelectedCardsAllIndexes.push(allCards[i].allCardsIndex)
+    for (let i = 0; i < myCards.length; i++) {
+      if(myCards[i].selected) {
+        mySelectedCards.push(myCards[i])
+        mySelectedCardsAllIndexes.push(myCards[i].allCardsIndex)
       }
     }
 
@@ -169,20 +127,25 @@ function App() {
     const comparison = comparingCardRanks(mySelectedCards, currentBiggest, currentBiggestRank)
     
     //if my cards are bigger, do the following
-    if (comparison) {
-
+    if (comparison) {     
       //if 5 cards, update the currentBiggestRank state
       if (comparison.rank) {
-        setCurrentBiggestRank(comparison.rank)
-      }      
+        socket.emit('play', {cards: mySelectedCards, rank: comparison.rank})
+      } else {
+        //tells the server my played cards
+        socket.emit('play', mySelectedCards)
+      }
+
+      
 
       //play the cards and render them in CurrentBiggest
-      setCurrentBiggest(mySelectedCards)
+      // setCurrentBiggest(mySelectedCards)
+      
 
       //delete the played cards in allCards state
-      setAllCards(prevAllCards => prevAllCards.filter(card => 
-        !mySelectedCardsAllIndexes.includes(card.allCardsIndex)
-      )) 
+      // setAllCards(prevAllCards => prevAllCards.filter(card => 
+      //   !mySelectedCardsAllIndexes.includes(card.allCardsIndex)
+      // )) 
 
       //update the numberOfHands state to refresh the UI
 
