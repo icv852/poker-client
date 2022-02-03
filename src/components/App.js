@@ -79,6 +79,9 @@ function App() {
     socket.on("decideRoundOrder", order => {
       console.log("round order is: ", order) //FOR DEV
     })
+
+    //the current round player can move
+    socket.on("currentRound", () => {console.log('You can move now!')})
     
     
     return () => {
