@@ -27,6 +27,7 @@ function App() {
   const [isMyRound, setIsMyRound] = React.useState(false)
   const [isFirstRound, setIsFirstRound] = React.useState(false)
   const [isPassedByAllOthers, setIsPassedByAllOthers] = React.useState(false)
+  const [isWinner, setIsWinner] = React.useState(false)
 
 
 
@@ -136,7 +137,12 @@ function App() {
     //if my cards are bigger, do the following
     if (comparison) {      
       //set first round to false after the first play
-      if(isFirstRound) setIsFirstRound(isFirstRound => !isFirstRound)     
+      if(isFirstRound) setIsFirstRound(isFirstRound => !isFirstRound)   
+
+      //check if I am the winner
+      if(myCards.length === mySelectedCards.length) {
+        return console.log('I am winner') //FOR DEV
+      }
 
       //tells the server my played cards
           //if 5 cards send an object with rank
@@ -166,7 +172,12 @@ function App() {
         }
         return newMyCardsArray
       })
-    }       
+
+      //check if I am the winner
+      // if(myCards.length === 0) {
+      //   socket.emit('win')
+      // }
+    }      
   }
 
   function pass() {
