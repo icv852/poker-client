@@ -134,6 +134,9 @@ function App() {
     //comparing mySelectedCards with currentBiggest, returning boolean (if 5-card case returning an object with indicator)
     const comparison = comparingCardRanks(mySelectedCards, currentBiggest, currentBiggestRank, isFirstRound)
     
+    //FOR DEV
+    console.log(comparison)
+
     //if my cards are bigger, do the following
     if (comparison) {      
       //set first round to false after the first play
