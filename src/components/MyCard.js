@@ -10,7 +10,7 @@ export default function MyCard(props) {
         <div 
             className="card"
             style={cardStyle}
-            onClick={() => props.selectCard(props.card.allCardsIndex)}
+            onClick={() => props.selectCard(props.card.myCardsIndex)}
         >
             <img src={`cards/${props.card.suit}/${props.card.number}.png`} />
         </div>        

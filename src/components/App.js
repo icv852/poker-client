@@ -117,10 +117,19 @@ function App() {
  
  
 
+  //OLD FRONT END VER.
+  // function selectCard(index) {    
+  //   setAllCards(prevAllCards => prevAllCards.map(card => {
+  //     if (card.allCardsIndex === index) {
+  //       return {...card, selected: !card.selected}
+  //     }
+  //     return card
+  //   }))
+  // }
 
-  function selectCard(index) {    
-    setAllCards(prevAllCards => prevAllCards.map(card => {
-      if (card.allCardsIndex === index) {
+  function selectCard(index) {
+    setMyCards(prevMyCards => prevMyCards.map(card => {
+      if (card.myCardsIndex === index) {
         return {...card, selected: !card.selected}
       }
       return card
