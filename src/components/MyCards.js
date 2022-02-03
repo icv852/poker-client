@@ -1,10 +1,11 @@
 import React from 'react'
 import MyCard from './MyCard'
+import { nanoid } from 'nanoid'
 
 export default function MyCards(props) {
     const cardsElements = props.cards.map(function(card) {        
         return (
-            <MyCard key={card.allCardsIndex} selectCard={props.selectCard} card={card} />    
+            <MyCard key={nanoid()} selectCard={props.selectCard} card={card} />    
         )
     })
 

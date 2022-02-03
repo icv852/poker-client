@@ -28,7 +28,7 @@ function App() {
 
   const [isWaiting, setIsWaiting] = React.useState(false)
   const [isStart, setIsStart] = React.useState(false)
- 
+  const [myCards, setMyCards] = React.useState(null)
 
 
   //FOR DEV testing with socket
@@ -65,13 +65,14 @@ function App() {
             return [0, 1, 2]
             break
         }
-      })
-      
-      setIsStart(true) //start the game after all variables are confirmed
+      })    
     })
     //server dealing cards to players
     socket.on("dealingCards", deck => {
       console.log(deck)
+      setMyCards(deck)
+
+      setIsStart(true) //start the game after all variables are confirmed
     })
     
     
@@ -80,8 +81,20 @@ function App() {
     }
   }, [])
 
-  
 
+    //////////////////////////////////////////////////
+    //FOR DEV
+   //put my cards in to a new array called 'myCards'
+  //  let myCards = []
+  //  let myCardsIndex = 0;
+  //  for (let i = 0; i < allCards.length; i++) {
+  //    if(allCards[i].me === true) {
+  //      myCards.push(allCards[i]);
+  //      myCards[myCardsIndex]['myCardsIndex'] = myCardsIndex;
+  //      myCardsIndex++;
+  //    }
+  //  }
+    //////////////////////////////////////////////////
   
   //FOR DEV
   console.log(players)
@@ -102,16 +115,7 @@ function App() {
   // }
   
  
-  //put my cards in to a new array called 'myCards'
-  let myCards = []
-  let myCardsIndex = 0;
-  for (let i = 0; i < allCards.length; i++) {
-    if(allCards[i].me === true) {
-      myCards.push(allCards[i]);
-      myCards[myCardsIndex]['myCardsIndex'] = myCardsIndex;
-      myCardsIndex++;
-    }
-  }
+ 
 
 
   function selectCard(index) {    
