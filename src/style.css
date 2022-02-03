@@ -72,6 +72,11 @@ main {
     left: 800px;
 }
 
+.pass {    
+    top: 470px;
+    left: 500px;
+}
+
 .loginForm {
     width: 50%;
     margin: auto;

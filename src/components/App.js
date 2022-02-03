@@ -26,9 +26,12 @@ function App() {
   const [currentBiggestRank, setCurrentBiggestRank] = React.useState([]) //for 5 cards comparison only
   const [players, setPlayers] = React.useState([])
 
+  const [isRoomFull, setIsRoomFull] = React.useState(false)
   const [isWaiting, setIsWaiting] = React.useState(false)
   const [isStart, setIsStart] = React.useState(false)
   const [myCards, setMyCards] = React.useState(null)
+  const [isMyRound, setIsMyRound] = React.useState(false)
+
 
 
   //FOR DEV testing with socket
@@ -39,6 +42,11 @@ function App() {
     socket.on("connect", () => {
       console.log(`You are connected! id:${socket.id}`)
     })
+    //if the room is full
+    socket.on("full", message => {
+      setIsRoomFull(message)
+    })
+
     //listen for anyone successfully joining a room
     socket.on("waiting", () => {setIsWaiting(true)})
     //listen for room filled
@@ -81,7 +89,9 @@ function App() {
     })
 
     //the current round player can move
-    socket.on("currentRound", () => {console.log('You can move now!')})
+    socket.on("currentRound", () => {
+      setIsMyRound(true)
+    })
     
     
     return () => {
@@ -178,27 +188,30 @@ function App() {
 
     }       
   }
+
+  function pass() {
+    console.log("pass!")
+  }
   
 
   
 
   return (
     <main>
-      {(!isWaiting && !isStart) ? <Login socket={socket} /> : ""}
-      {isWaiting ? <Waiting /> : ""} 
-      {isStart ? 
+      {(!isWaiting && !isStart) && <Login socket={socket} />}
+      {(!isWaiting && !isStart && isRoomFull) && <p>{isRoomFull}</p>}
+      {isWaiting && <Waiting />} 
+      {isStart && 
       <div>
         <CurrentBiggestContainer cards={currentBiggest}/>
         <MyCards cards={myCards} selectCard={selectCard}/>
         <OppositeCards handsNum={players[opponents[1]].numberOfHands} />
         <LeftCards handsNum={players[opponents[2]].numberOfHands} />
         <RightCards handsNum={players[opponents[0]].numberOfHands} />
-        {/* <OppositeCards handsNum={13} />
-        <LeftCards handsNum={13} />
-        <RightCards handsNum={13} /> */}
-        <div className="button play" onClick={play}>Play</div>
-      </div> 
-      : ""}
+        {isMyRound && <div className="button play" onClick={play}>Play</div>}
+        {isMyRound && <div className="button pass" onClick={pass}>Pass</div>}
+      </div>
+      }
     </main>
   );
 }
