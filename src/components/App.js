@@ -164,7 +164,10 @@ function App() {
   }
 
   function pass() {
-    console.log("pass!")
+    //tells the server I passed
+    socket.emit('pass', myCards)
+    //end my turn
+    setIsMyRound(false) 
   }
   
 
