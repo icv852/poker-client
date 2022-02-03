@@ -77,6 +77,11 @@ main {
     left: 500px;
 }
 
+.newGame {
+    top: 700px;
+    left: 50px;
+}
+
 .loginForm {
     width: 50%;
     margin: auto;

@@ -176,6 +176,9 @@ function App() {
     setIsMyRound(false) 
   }
   
+  function startNewGame() {
+    console.log("new game!")
+  }
 
   //FOR DEV
   // console.log('currentBiggest', currentBiggest)
@@ -196,6 +199,7 @@ function App() {
         <RightCards handsNum={players[opponents[0]].numberOfHands} />
         {isMyRound && <div className="button play" onClick={play}>Play</div>}
         {!isFirstRound && !isPassedByAllOthers && isMyRound && <div className="button pass" onClick={pass}>Pass</div>}
+        <div className= "button newGame" onClick={startNewGame}>New Game</div>
       </div>
       }
     </main>
