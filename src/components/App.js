@@ -17,6 +17,10 @@ const socket = io("http://localhost:8080");
 
 function App() {
   const [me, setMe] = React.useState(0) //FOR DEV
+  const [opponents, setOpponents] = React.useState([])
+
+
+
   const [allCards, setAllCards] = React.useState(generateNewCards(me))
   const [currentBiggest, setCurrentBiggest] = React.useState([])
   const [currentBiggestRank, setCurrentBiggestRank] = React.useState([]) //for 5 cards comparison only
@@ -35,16 +39,35 @@ function App() {
     socket.on("connect", () => {
       console.log(`You are connected! id:${socket.id}`)
     })
-    // //listen for anyone successfully joining a room
+    //listen for anyone successfully joining a room
     socket.on("waiting", () => {setIsWaiting(true)})
-    // //listen for room filled
+    //listen for room filled
     socket.on("roomFilled", (roomInfo) => {
       setIsWaiting(false)
       setPlayers(roomInfo)
-      setIsStart(true)
     })
+    //assign playerIds when room is filled
     socket.on("assignPlayerId", (pid) => {
-      console.log('my pid: ', pid)
+      console.log('my pid: ', pid) //FOR DEV
+      setMe(pid)
+      setOpponents(() => {
+        switch (pid) {
+          case 0:
+            return [1, 2, 3]
+            break
+          case 1:
+            return [2, 3, 0]
+            break
+          case 2:
+            return [3, 0, 1]
+            break
+          case 3:
+            return [0, 1, 2]
+            break
+        }
+      })
+      
+      setIsStart(true)
     })
     
     
@@ -58,6 +81,8 @@ function App() {
   
   //FOR DEV
   console.log(players)
+  console.log(me)
+  console.log(opponents)
   // console.log(players)
 
   //FOR DEV create players objects 
@@ -140,9 +165,12 @@ function App() {
       <div>
         <CurrentBiggestContainer cards={currentBiggest}/>
         <MyCards cards={myCards} selectCard={selectCard}/>
-        <OppositeCards handsNum={players[2].numberOfHands} />
-        <LeftCards handsNum={players[3].numberOfHands} />
-        <RightCards handsNum={players[1].numberOfHands} />
+        <OppositeCards handsNum={players[opponents[1]].numberOfHands} />
+        <LeftCards handsNum={players[opponents[2]].numberOfHands} />
+        <RightCards handsNum={players[opponents[0]].numberOfHands} />
+        {/* <OppositeCards handsNum={13} />
+        <LeftCards handsNum={13} />
+        <RightCards handsNum={13} /> */}
         <div className="button play" onClick={play}>Play</div>
       </div> 
       : ""}
