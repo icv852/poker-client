@@ -93,7 +93,7 @@ function App() {
       setIsMyRound(true)
     })
 
-    //server provides the latest currentBiggest and currentBiggestRank
+    //server provides the latest currentBiggest and currentBiggestRank after a player plays
     socket.on("updateRound", latestInfo => {
       setCurrentBiggest(latestInfo.currentBiggest)
       setCurrentBiggestRank(latestInfo.currentBiggestRank)
@@ -146,6 +146,26 @@ function App() {
 
       //end my turn
       setIsMyRound(false)      
+
+      //delete the played cards in myCards state
+      setMyCards(prevMyCards => {
+        const newMyCardsArray = []
+        let newMyCardsIndex = 0
+        for (let i = 0; i < prevMyCards.length; i++) {
+          if(!prevMyCards[i].selected) {
+            const cardWithNewMyCardIndex = {
+              ...prevMyCards[i],
+              myCardsIndex: newMyCardsIndex
+            }
+            newMyCardsArray.push(cardWithNewMyCardIndex)
+            newMyCardsIndex++
+          }
+        }
+        return newMyCardsArray
+      })
+
+
+
 
       //play the cards and render them in CurrentBiggest
       // setCurrentBiggest(mySelectedCards)
