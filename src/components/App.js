@@ -88,7 +88,7 @@ function App() {
       console.log("round order is: ", order) //FOR DEV
     })
 
-    //the current round player can move
+    //listen if it is my round
     socket.on("currentRound", () => {
       setIsMyRound(true)
     })
@@ -134,15 +134,17 @@ function App() {
     
     //if my cards are bigger, do the following
     if (comparison) {     
-      //if 5 cards, update the currentBiggestRank state
+      //tells the server my played cards
+          //if 5 cards send an object with rank
       if (comparison.rank) {
         socket.emit('play', {cards: mySelectedCards, rank: comparison.rank})
       } else {
-        //tells the server my played cards
+          //fewer than 5 cards
         socket.emit('play', mySelectedCards)
       }
 
-      
+      //end my turn
+      setIsMyRound(false)      
 
       //play the cards and render them in CurrentBiggest
       // setCurrentBiggest(mySelectedCards)
