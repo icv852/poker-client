@@ -6,30 +6,24 @@ import CurrentBiggestContainer from './CurrentBiggest'
 import MyCards from './MyCards'
 import OppositeCards from './OppositeCards'
 import LeftCards from './LeftCards'
-import generateNewCards from '../logics/generateNewCards'
 import comparingCardRanks from '../logics/comparingCardRanks'
 import RightCards from './RightCards'
 import Waiting from './Waiting'
 
-//construct a new socket
+//construct a new socket which doesn't change when rerender
 const socket = io("http://localhost:8080");
 
 
-function App() {
-  const [me, setMe] = React.useState(0) //FOR DEV
+function App() {  
+  const [players, setPlayers] = React.useState([])  
   const [opponents, setOpponents] = React.useState([])
-
-
-
-  const [allCards, setAllCards] = React.useState(generateNewCards(me))
+  const [myCards, setMyCards] = React.useState(null)
   const [currentBiggest, setCurrentBiggest] = React.useState([])
   const [currentBiggestRank, setCurrentBiggestRank] = React.useState([]) //for 5 cards comparison only
-  const [players, setPlayers] = React.useState([])
 
   const [isRoomFull, setIsRoomFull] = React.useState(false)
   const [isWaiting, setIsWaiting] = React.useState(false)
   const [isStart, setIsStart] = React.useState(false)
-  const [myCards, setMyCards] = React.useState(null)
   const [isMyRound, setIsMyRound] = React.useState(false)
 
 
@@ -56,8 +50,6 @@ function App() {
     })
     //assign playerIds when room is filled
     socket.on("assignPlayerId", pid => {
-      console.log('my pid: ', pid) //FOR DEV
-      setMe(pid)
       setOpponents(() => {
         switch (pid) {
           case 0:
@@ -105,10 +97,6 @@ function App() {
       socket.removeAllListeners()
     }
   }, [])
-
-
-  // console.log(players)
-
 
   function selectCard(index) {
     setMyCards(prevMyCards => prevMyCards.map(card => {
@@ -163,21 +151,6 @@ function App() {
         }
         return newMyCardsArray
       })
-
-
-
-
-      //play the cards and render them in CurrentBiggest
-      // setCurrentBiggest(mySelectedCards)
-      
-
-      //delete the played cards in allCards state
-      // setAllCards(prevAllCards => prevAllCards.filter(card => 
-      //   !mySelectedCardsAllIndexes.includes(card.allCardsIndex)
-      // )) 
-
-      //update the numberOfHands state to refresh the UI
-
     }       
   }
 
