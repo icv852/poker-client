@@ -92,6 +92,11 @@ function App() {
     socket.on("currentRound", () => {
       setIsMyRound(true)
     })
+
+    //server provides the latest currentBiggest and currentBiggestRank
+    socket.on("updateRound", info => {
+      console.log(info)
+    })
     
     
     return () => {
