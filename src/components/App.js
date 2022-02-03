@@ -94,8 +94,9 @@ function App() {
     })
 
     //server provides the latest currentBiggest and currentBiggestRank
-    socket.on("updateRound", info => {
-      console.log(info)
+    socket.on("updateRound", biggestInfo => {
+      setCurrentBiggest(biggestInfo.currentBiggest)
+      setCurrentBiggestRank(biggestInfo.currentBiggestRank)
     })
     
     
@@ -162,7 +163,9 @@ function App() {
   }
   
 
-  
+  //FOR DEV
+  console.log('currentBiggest', currentBiggest)
+  console.log('currentBiggestRank', currentBiggestRank)
 
   return (
     <main>
