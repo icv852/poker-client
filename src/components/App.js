@@ -26,6 +26,7 @@ function App() {
   const [isStart, setIsStart] = React.useState(false)
   const [isMyRound, setIsMyRound] = React.useState(false)
   const [isFirstRound, setIsFirstRound] = React.useState(false)
+  const [isPassedByAllOthers, setIsPassedByAllOthers] = React.useState(false)
 
 
 
@@ -54,20 +55,22 @@ function App() {
     //assign playerIds when room is filled
     socket.on("assignPlayerId", pid => {
       setOpponents(() => {
+        let opponentsArray;
         switch (pid) {
           case 0:
-            return [1, 2, 3]
+            opponentsArray = [1, 2, 3]
             break
           case 1:
-            return [2, 3, 0]
+            opponentsArray = [2, 3, 0]
             break
           case 2:
-            return [3, 0, 1]
+            opponentsArray = [3, 0, 1]
             break
           case 3:
-            return [0, 1, 2]
+            opponentsArray = [0, 1, 2]
             break
         }
+        return opponentsArray
       })    
     })
     //server dealing cards to players individually
@@ -81,15 +84,16 @@ function App() {
     //   console.log("round order is: ", order) //FOR DEV
     // })
 
-    //listen if it is my round
-    socket.on("currentRound", () => {
-      setIsMyRound(true)
-    })
-
     //listen if it is first round
     socket.on("firstRound", () => {
       setIsFirstRound(true)
     })
+
+    //listen if it is my round
+    socket.on("currentRound", isPassedByAllOthers => {
+      setIsMyRound(true)          
+      console.log('isPassedByAllOthers', isPassedByAllOthers)
+    })    
 
     //server provides the latest currentBiggest and currentBiggestRank after a player plays
     socket.on("updateRound", latestInfo => {
@@ -103,6 +107,8 @@ function App() {
       socket.removeAllListeners()
     }
   }, [])
+
+
 
   function selectCard(index) {
     setMyCards(prevMyCards => prevMyCards.map(card => {
@@ -172,8 +178,9 @@ function App() {
   
 
   //FOR DEV
-  console.log('currentBiggest', currentBiggest)
-  console.log('currentBiggestRank', currentBiggestRank)
+  // console.log('currentBiggest', currentBiggest)
+  // console.log('currentBiggestRank', currentBiggestRank)
+  // console.log('myCards', myCards)
 
   return (
     <main>
@@ -188,7 +195,7 @@ function App() {
         <LeftCards handsNum={players[opponents[2]].numberOfHands} />
         <RightCards handsNum={players[opponents[0]].numberOfHands} />
         {isMyRound && <div className="button play" onClick={play}>Play</div>}
-        {isMyRound && <div className="button pass" onClick={pass}>Pass</div>}
+        {!isFirstRound && isMyRound && <div className="button pass" onClick={pass}>Pass</div>}
       </div>
       }
     </main>
