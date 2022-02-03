@@ -102,6 +102,11 @@ function App() {
       setCurrentBiggestRank(latestInfo.currentBiggestRank)
       setPlayers(latestInfo.players)
     })
+
+    //listen if I am winner
+    socket.on("win", () => {
+      setIsWinner(true)
+    })
     
     
     return () => {
@@ -142,9 +147,10 @@ function App() {
       //set first round to false after the first play
       if(isFirstRound) setIsFirstRound(isFirstRound => !isFirstRound)   
 
-      //check if I am the winner
+      //check if I have 0 hand
       if(myCards.length === mySelectedCards.length) {
-        return console.log('I am winner') //FOR DEV
+        setMyCards([])
+        return socket.emit('emptyHand', {socketId: socket.id, room: players[0].room})
       }
 
       //tells the server my played cards
@@ -194,10 +200,13 @@ function App() {
     console.log("new game!")
   }
 
+
   //FOR DEV
   // console.log('currentBiggest', currentBiggest)
   // console.log('currentBiggestRank', currentBiggestRank)
   // console.log('myCards', myCards)
+  // console.log('players[0].room', players[0].room)
+  // console.log(socket.id)
 
   return (
     <main>
@@ -213,7 +222,7 @@ function App() {
         <RightCards handsNum={players[opponents[0]].numberOfHands} />
         {isMyRound && <div className="button play" onClick={play}>Play</div>}
         {!isFirstRound && !isPassedByAllOthers && isMyRound && <div className="button pass" onClick={pass}>Pass</div>}
-        <div className= "button newGame" onClick={startNewGame}>New Game</div>
+        {isWinner && <div className= "button newGame" onClick={startNewGame}>New Game</div>}
       </div>
       }
     </main>
