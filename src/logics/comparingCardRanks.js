@@ -1,4 +1,4 @@
-export default function comparingCardRanks(mine, biggest, biggestRank) {
+export default function comparingCardRanks(mine, biggest, biggestRank, isFirstRound) {
 
     //check if the number of my cards is valid (1,2,3 or 5)
     const validNumbersOfCards = [1, 2, 3, 5];
@@ -6,6 +6,17 @@ export default function comparingCardRanks(mine, biggest, biggestRank) {
 
     //check if the number of cards of mine and biggest are the same
     if (biggest.length !== 0 && mine.length !== biggest.length) return false  
+
+    //check if my cards contain 'Diamond 3' if it is first round
+    if (isFirstRound) {
+        let containsDiamond3 = false
+        for (let i = 0; i < mine.length; i++) {
+            if(mine[i].suit === 0 && mine[i].number === 3) {
+                containsDiamond3 = true
+            }
+        }
+        if (!containsDiamond3) return false
+    }
 
     //when I play 1 card:
     if(mine.length === 1) {

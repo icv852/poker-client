@@ -25,6 +25,7 @@ function App() {
   const [isWaiting, setIsWaiting] = React.useState(false)
   const [isStart, setIsStart] = React.useState(false)
   const [isMyRound, setIsMyRound] = React.useState(false)
+  const [isFirstRound, setIsFirstRound] = React.useState(false)
 
 
 
@@ -45,7 +46,9 @@ function App() {
     socket.on("waiting", () => {setIsWaiting(true)})
     //listen for room filled
     socket.on("roomFilled", roomInfo => {
+      //leave the waiting stage
       setIsWaiting(false)
+      //get room info from server
       setPlayers(roomInfo)
     })
     //assign playerIds when room is filled
@@ -67,22 +70,25 @@ function App() {
         }
       })    
     })
-    //server dealing cards to players
+    //server dealing cards to players individually
     socket.on("dealingCards", deck => {
-      console.log(deck)
       setMyCards(deck)
-
       setIsStart(true) //start the game after all variables are confirmed
     })
 
-    //decide the round order
-    socket.on("decideRoundOrder", order => {
-      console.log("round order is: ", order) //FOR DEV
-    })
+    // //decide the round order
+    // socket.on("decideRoundOrder", order => {
+    //   console.log("round order is: ", order) //FOR DEV
+    // })
 
     //listen if it is my round
     socket.on("currentRound", () => {
       setIsMyRound(true)
+    })
+
+    //listen if it is first round
+    socket.on("firstRound", () => {
+      setIsFirstRound(true)
     })
 
     //server provides the latest currentBiggest and currentBiggestRank after a player plays
@@ -119,10 +125,13 @@ function App() {
     }
 
     //comparing mySelectedCards with currentBiggest, returning boolean (if 5-card case returning an object with indicator)
-    const comparison = comparingCardRanks(mySelectedCards, currentBiggest, currentBiggestRank)
+    const comparison = comparingCardRanks(mySelectedCards, currentBiggest, currentBiggestRank, isFirstRound)
     
     //if my cards are bigger, do the following
-    if (comparison) {     
+    if (comparison) {      
+      //set first round to false after the first play
+      if(isFirstRound) setIsFirstRound(isFirstRound => !isFirstRound)     
+
       //tells the server my played cards
           //if 5 cards send an object with rank
       if (comparison.rank) {
