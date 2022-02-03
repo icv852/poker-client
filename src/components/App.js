@@ -42,12 +42,12 @@ function App() {
     //listen for anyone successfully joining a room
     socket.on("waiting", () => {setIsWaiting(true)})
     //listen for room filled
-    socket.on("roomFilled", (roomInfo) => {
+    socket.on("roomFilled", roomInfo => {
       setIsWaiting(false)
       setPlayers(roomInfo)
     })
     //assign playerIds when room is filled
-    socket.on("assignPlayerId", (pid) => {
+    socket.on("assignPlayerId", pid => {
       console.log('my pid: ', pid) //FOR DEV
       setMe(pid)
       setOpponents(() => {
@@ -67,7 +67,11 @@ function App() {
         }
       })
       
-      setIsStart(true)
+      setIsStart(true) //start the game after all variables are confirmed
+    })
+    //server dealing cards to players
+    socket.on("dealingCards", deck => {
+      console.log(deck)
     })
     
     
