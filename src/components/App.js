@@ -92,7 +92,7 @@ function App() {
     //listen if it is my round
     socket.on("currentRound", isPassedByAllOthers => {
       setIsMyRound(true)          
-      console.log('isPassedByAllOthers', isPassedByAllOthers)
+      setIsPassedByAllOthers(isPassedByAllOthers)
     })    
 
     //server provides the latest currentBiggest and currentBiggestRank after a player plays
@@ -195,7 +195,7 @@ function App() {
         <LeftCards handsNum={players[opponents[2]].numberOfHands} />
         <RightCards handsNum={players[opponents[0]].numberOfHands} />
         {isMyRound && <div className="button play" onClick={play}>Play</div>}
-        {!isFirstRound && isMyRound && <div className="button pass" onClick={pass}>Pass</div>}
+        {!isFirstRound && !isPassedByAllOthers && isMyRound && <div className="button pass" onClick={pass}>Pass</div>}
       </div>
       }
     </main>
