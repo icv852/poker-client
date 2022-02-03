@@ -94,9 +94,10 @@ function App() {
     })
 
     //server provides the latest currentBiggest and currentBiggestRank
-    socket.on("updateRound", biggestInfo => {
-      setCurrentBiggest(biggestInfo.currentBiggest)
-      setCurrentBiggestRank(biggestInfo.currentBiggestRank)
+    socket.on("updateRound", latestInfo => {
+      setCurrentBiggest(latestInfo.currentBiggest)
+      setCurrentBiggestRank(latestInfo.currentBiggestRank)
+      setPlayers(latestInfo.players)
     })
     
     
