@@ -10,8 +10,3 @@ export default function PlayersNameAndScore({players, opponents}) {
         </div>
     )
 }
-
-{/* <MyCards cards={myCards} selectCard={selectCard}/>
-        <OppositeCards handsNum={players[opponents[1]].numberOfHands} />
-        <LeftCards handsNum={players[opponents[2]].numberOfHands} />
-        <RightCards handsNum={players[opponents[0]].numberOfHands} /> */}
