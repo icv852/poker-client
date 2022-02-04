@@ -1,7 +1,7 @@
 main {
     /* display: flex; */
     /* flex-direction: row; */
-    background-color: aqua;
+    background-color:steelblue;
     height: 800px;
     width: 1400px;
     font-family:Verdana, Geneva, Tahoma, sans-serif;
@@ -9,7 +9,7 @@ main {
 
 .my-cards-holder {
     position: absolute;
-    background-color: aquamarine;
+    /* background-color: aquamarine; */
     height: 180px;
     top: 600px;
     display: flex;
@@ -19,20 +19,20 @@ main {
 
 .opposite-cards-holder {
     position: absolute;
-    background-color:coral;
+    /* background-color:coral; */
     top: 20px;
 }
 
 .left-cards-holder {
     position: absolute;
-    background-color:greenyellow;
+    /* background-color:greenyellow; */
     left: 60px;
     top: 150px;
 }
 
 .right-cards-holder {
     position: absolute;
-    background-color:greenyellow;
+    /* background-color:greenyellow; */
     left: 1250px;
     top: 150px;
 }
@@ -52,7 +52,7 @@ main {
     position: absolute;
     height: 145px;
     width: 500px;
-    background-color: blueviolet;
+    /* background-color: blueviolet; */
     top: 290px;
     left: 450px;
 }
@@ -86,7 +86,7 @@ main {
     position: absolute;
     width: 100px;
     height: 70px;
-    background-color: brown;
+    background-color:palegreen;
     justify-content: center;
     align-items: center;
 }
