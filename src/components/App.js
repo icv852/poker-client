@@ -34,6 +34,7 @@ function App() {
   const [isPassedByAllOthers, setIsPassedByAllOthers] = React.useState(false)
   const [isWinner, setIsWinner] = React.useState(false)
   const [isWaitForWinner, setIsWaitForWinner] = React.useState(false)
+  const [isDisconnect, setIsDisconnect] = React.useState(false)
 
 
   React.useEffect(() => {    
@@ -123,6 +124,13 @@ function App() {
     socket.on("waitForWinner", players => {
       setPlayers(players)
       setIsWaitForWinner(true)      
+    })
+
+    //listen if someone disconnected
+    socket.on("otherDisconnect", () => {
+      setIsDisconnect(true)
+      console.log("someone disconnected!")
+      socket.disconnect()
     })
     
     
@@ -225,6 +233,7 @@ function App() {
 
   return (
     <main>
+      {isDisconnect && <p>You are disconnected. Please refresh the page.</p>}
       {(!isWaiting && !isStart) && <Login socket={socket} />}
       {(!isWaiting && !isStart && isRoomFull) && <p>{isRoomFull}</p>}
       {isWaiting && <Waiting />} 
