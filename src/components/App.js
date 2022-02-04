@@ -7,9 +7,11 @@ import PlayersNameAndScore from './PlayersNameAndScore'
 import MyCards from './MyCards'
 import OppositeCards from './OppositeCards'
 import LeftCards from './LeftCards'
-import comparingCardRanks from '../logics/comparingCardRanks'
 import RightCards from './RightCards'
 import Waiting from './Waiting'
+
+import comparingCardRanks from '../logics/comparingCardRanks'
+import sortMyHands from '../logics/sortMyHands'
 
 //construct a new socket which doesn't change when rerender
 const socket = io("http://localhost:8080");
@@ -203,11 +205,6 @@ function App() {
         }
         return newMyCardsArray
       })
-
-      //check if I am the winner
-      // if(myCards.length === 0) {
-      //   socket.emit('win')
-      // }
     }      
   }
 
@@ -222,13 +219,13 @@ function App() {
     socket.emit('requireNewGame', players[0].room)
   }
 
+  function sort() {
+    const sortedMyCards = sortMyHands(myCards)
+    setMyCards(sortedMyCards)
+  }
 
   //FOR DEV
-  // console.log('currentBiggest', currentBiggest)
-  // console.log('currentBiggestRank', currentBiggestRank)
-  // console.log('myCards', myCards)
-  // console.log('players[0].room', players[0].room)
-  // console.log(socket.id)
+  console.log(myCards)
 
   return (
     <main>
@@ -246,7 +243,7 @@ function App() {
         {!isWaitForWinner && isMyRound && <div className="button play" onClick={play}>Play</div>}
         {!isWaitForWinner && !isFirstRound && !isPassedByAllOthers && isMyRound && <div className="button pass" onClick={pass}>Pass</div>}
         {isWinner && <div className= "button newGame" onClick={startNewGame}>New Game</div>}
-        <div className="button sort">Sort</div>
+        <div className="button sort" onClick={sort}>Sort</div>
       </div>
       }
     </main>
