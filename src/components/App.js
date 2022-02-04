@@ -61,18 +61,19 @@ function App() {
     socket.on("assignPlayerId", pid => {
       setOpponents(() => {
         let opponentsArray;
+        //the last element of array stores my own PID
         switch (pid) {
           case 0:
-            opponentsArray = [1, 2, 3]
+            opponentsArray = [1, 2, 3, 0]
             break
           case 1:
-            opponentsArray = [2, 3, 0]
+            opponentsArray = [2, 3, 0, 1]
             break
           case 2:
-            opponentsArray = [3, 0, 1]
+            opponentsArray = [3, 0, 1, 2]
             break
           case 3:
-            opponentsArray = [0, 1, 2]
+            opponentsArray = [0, 1, 2, 3]
             break
           default:
             break
@@ -237,7 +238,7 @@ function App() {
       {isStart && 
       <div>
         <CurrentBiggestContainer cards={currentBiggest}/>
-        <PlayersNameAndScore players={players} />
+        <PlayersNameAndScore players={players} opponents={opponents} />
         <MyCards cards={myCards} selectCard={selectCard}/>
         <OppositeCards handsNum={players[opponents[1]].numberOfHands} />
         <LeftCards handsNum={players[opponents[2]].numberOfHands} />
