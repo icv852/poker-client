@@ -111,8 +111,8 @@ function App() {
     })
 
     //listen if the game is finished
-    socket.on("finish", () => {
-      console.log('game finished!')
+    socket.on("waitForWinner", () => {
+      console.log('waitForWinner!')
     })
     
     
