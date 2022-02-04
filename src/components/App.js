@@ -3,6 +3,7 @@ import { io } from 'socket.io-client'
 
 import Login from './Login'
 import CurrentBiggestContainer from './CurrentBiggest'
+import PlayersNameAndScore from './PlayersNameAndScore'
 import MyCards from './MyCards'
 import OppositeCards from './OppositeCards'
 import LeftCards from './LeftCards'
@@ -17,13 +18,15 @@ const socket = io("http://localhost:8080");
 function App() {  
   const [players, setPlayers] = React.useState([])  
   const [opponents, setOpponents] = React.useState([])
-  const [myCards, setMyCards] = React.useState(null)
-  const [currentBiggest, setCurrentBiggest] = React.useState([])
-  const [currentBiggestRank, setCurrentBiggestRank] = React.useState([]) //for 5 cards comparison only
 
   const [isRoomFull, setIsRoomFull] = React.useState(false)
   const [isWaiting, setIsWaiting] = React.useState(false)
   const [isStart, setIsStart] = React.useState(false)
+
+  //in game states
+  const [myCards, setMyCards] = React.useState(null)
+  const [currentBiggest, setCurrentBiggest] = React.useState([])
+  const [currentBiggestRank, setCurrentBiggestRank] = React.useState([]) //for 5 cards comparison only
   const [isMyRound, setIsMyRound] = React.useState(false)
   const [isFirstRound, setIsFirstRound] = React.useState(false)
   const [isPassedByAllOthers, setIsPassedByAllOthers] = React.useState(false)
@@ -77,10 +80,21 @@ function App() {
         return opponentsArray
       })    
     })
+
+    //server requires clearing old states to start a new game
+    socket.on("clearOldStates", () => {
+      // setMyCards(null)
+      setIsMyRound(false)
+      setIsFirstRound(false)
+      setIsPassedByAllOthers(false)
+      setIsWinner(false)
+      setIsWaitForWinner(false)
+    })
+
     //server dealing cards to players individually
     socket.on("dealingCards", deck => {
       setMyCards(deck)
-      setIsStart(true) //start the game after all variables are confirmed
+      setIsStart(true) //start the game after all variables are confirmed      
     })
 
     // //decide the round order
@@ -113,7 +127,7 @@ function App() {
 
     //listen if the game is finished
     socket.on("waitForWinner", () => {
-      setIsWaitForWinner(true)
+      setIsWaitForWinner(true)      
     })
     
     
@@ -121,8 +135,6 @@ function App() {
       socket.removeAllListeners()
     }
   }, [])
-
-
 
   function selectCard(index) {
     setMyCards(prevMyCards => prevMyCards.map(card => {
@@ -206,7 +218,7 @@ function App() {
   }
   
   function startNewGame() {
-    console.log("new game!")
+    socket.emit('requireNewGame', players[0].room)
   }
 
 
@@ -225,6 +237,7 @@ function App() {
       {isStart && 
       <div>
         <CurrentBiggestContainer cards={currentBiggest}/>
+        <PlayersNameAndScore />
         <MyCards cards={myCards} selectCard={selectCard}/>
         <OppositeCards handsNum={players[opponents[1]].numberOfHands} />
         <LeftCards handsNum={players[opponents[2]].numberOfHands} />
