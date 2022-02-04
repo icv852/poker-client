@@ -225,6 +225,11 @@ function App() {
     setMyCards(sortedMyCards)
   }
 
+  // function dragCard(event) {
+
+  // }
+
+
   //FOR DEV
   console.log('players', players)
 
@@ -237,7 +242,7 @@ function App() {
       <div>
         <CurrentBiggestContainer cards={currentBiggest}/>
         <PlayersNameAndScore players={players} opponents={opponents} />
-        <MyCards cards={myCards} selectCard={selectCard}/>
+        <MyCards cards={myCards} selectCard={selectCard} />
         <OppositeCards handsNum={players[opponents[1]].numberOfHands} />
         <LeftCards handsNum={players[opponents[2]].numberOfHands} />
         <RightCards handsNum={players[opponents[0]].numberOfHands} />
