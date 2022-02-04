@@ -1,12 +1,6 @@
 export default function sortMyHands(cards) {
-    //FOR DEV
-    console.log(cards)
-
     //create a temporary cards array
     let newMyCardsArray = []
-
-    //sort my hands based on number
-    // cards.sort((a, b) => a.number - b.number)
 
     //sort my hands based on number
     for (let i = 3; i < 16; i++) {

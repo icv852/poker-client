@@ -129,7 +129,8 @@ function App() {
     })
 
     //listen if the game is finished
-    socket.on("waitForWinner", () => {
+    socket.on("waitForWinner", players => {
+      setPlayers(players)
       setIsWaitForWinner(true)      
     })
     
@@ -225,7 +226,7 @@ function App() {
   }
 
   //FOR DEV
-  console.log(myCards)
+  console.log('players', players)
 
   return (
     <main>
