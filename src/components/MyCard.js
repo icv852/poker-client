@@ -12,7 +12,7 @@ export default function MyCard(props) {
             style={cardStyle}
             onClick={() => props.selectCard(props.card.myCardsIndex)}
         >
-            <img src={`cards/${props.card.suit}/${props.card.number}.png`} />
+            <img src={`cards/${props.card.suit}/${props.card.number}.png`} alt="card img"/>
         </div>        
     )
 }

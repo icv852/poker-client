@@ -70,6 +70,8 @@ function App() {
           case 3:
             opponentsArray = [0, 1, 2]
             break
+          default:
+            break
         }
         return opponentsArray
       })    
@@ -106,6 +108,11 @@ function App() {
     //listen if I am winner
     socket.on("win", () => {
       setIsWinner(true)
+    })
+
+    //listen if the game is finished
+    socket.on("finish", () => {
+      console.log('game finished!')
     })
     
     

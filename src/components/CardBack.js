@@ -6,7 +6,7 @@ export default function CardBack(props) {
             className="card"
             style={props.style}
         >
-            <img src={`cards/cardback.png`} />
+            <img src={`cards/cardback.png`} alt="cardback img"/>
         </div>        
     )
 }
