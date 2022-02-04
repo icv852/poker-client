@@ -36,10 +36,6 @@ function App() {
   const [isWaitForWinner, setIsWaitForWinner] = React.useState(false)
 
 
-
-  //FOR DEV testing with socket
-  
-
   React.useEffect(() => {    
     //connect to server
     socket.on("connect", () => {
@@ -99,11 +95,6 @@ function App() {
       setMyCards(deck)
       setIsStart(true) //start the game after all variables are confirmed      
     })
-
-    // //decide the round order
-    // socket.on("decideRoundOrder", order => {
-    //   console.log("round order is: ", order) //FOR DEV
-    // })
 
     //listen if it is first round
     socket.on("firstRound", () => {
@@ -225,10 +216,9 @@ function App() {
     setMyCards(sortedMyCards)
   }
 
-  // function dragCard(event) {
-
-  // }
-
+  function dragCard(newArray) {
+    setMyCards(newArray)
+  }
 
   //FOR DEV
   console.log('players', players)
@@ -242,7 +232,7 @@ function App() {
       <div>
         <CurrentBiggestContainer cards={currentBiggest}/>
         <PlayersNameAndScore players={players} opponents={opponents} />
-        <MyCards cards={myCards} selectCard={selectCard} />
+        <MyCards cards={myCards} selectCard={selectCard} dragCard={dragCard}/>
         <OppositeCards handsNum={players[opponents[1]].numberOfHands} />
         <LeftCards handsNum={players[opponents[2]].numberOfHands} />
         <RightCards handsNum={players[opponents[0]].numberOfHands} />

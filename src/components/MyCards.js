@@ -17,7 +17,7 @@ export default function MyCards(props) {
     //generate MyCard elements
     const cardsElements = props.cards.map(function(card) {        
         return (
-            <MyCard key={nanoid()} selectCard={props.selectCard} card={card} leftEdges={leftEdgesOfCards} />    
+            <MyCard key={nanoid()} selectCard={props.selectCard} dragCard={props.dragCard} card={card} leftEdges={leftEdgesOfCards} cards={props.cards} />    
         )
     })    
 
