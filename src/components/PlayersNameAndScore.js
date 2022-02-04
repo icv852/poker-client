@@ -1,12 +1,13 @@
 import React from 'react'
 
-export default function PlayersNameAndScore() {
+export default function PlayersNameAndScore(props) {
+    console.log(props.players)
     return (
         <div className="playersNameAndScore">
-            <div className="myNameAndScore">Name: Score</div>
-            <div className="oppositeNameAndScore">Name: Score</div>
-            <div className="leftNameAndScore">Name: Score</div>
-            <div className="rightNameAndScore">Name: Score</div>
+            <div className="myNameAndScore">Name: 0</div>
+            <div className="oppositeNameAndScore">Name: 0</div>
+            <div className="leftNameAndScore">Name: 0</div>
+            <div className="rightNameAndScore">Name: 0</div>
         </div>
     )
 }

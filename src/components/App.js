@@ -237,7 +237,7 @@ function App() {
       {isStart && 
       <div>
         <CurrentBiggestContainer cards={currentBiggest}/>
-        <PlayersNameAndScore />
+        <PlayersNameAndScore players={players} />
         <MyCards cards={myCards} selectCard={selectCard}/>
         <OppositeCards handsNum={players[opponents[1]].numberOfHands} />
         <LeftCards handsNum={players[opponents[2]].numberOfHands} />
