@@ -243,7 +243,7 @@ function App() {
         {!isWaitForWinner && isMyRound && <div className="button play" onClick={play}>Play</div>}
         {!isWaitForWinner && !isFirstRound && !isPassedByAllOthers && isMyRound && <div className="button pass" onClick={pass}>Pass</div>}
         {isWinner && <div className= "button newGame" onClick={startNewGame}>New Game</div>}
-        <div className="button sort" onClick={sort}>Sort</div>
+        {!isWaitForWinner && <div className="button sort" onClick={sort}>Sort</div>}
       </div>
       }
     </main>
