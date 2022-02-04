@@ -28,6 +28,7 @@ function App() {
   const [isFirstRound, setIsFirstRound] = React.useState(false)
   const [isPassedByAllOthers, setIsPassedByAllOthers] = React.useState(false)
   const [isWinner, setIsWinner] = React.useState(false)
+  const [isWaitForWinner, setIsWaitForWinner] = React.useState(false)
 
 
 
@@ -112,7 +113,7 @@ function App() {
 
     //listen if the game is finished
     socket.on("waitForWinner", () => {
-      console.log('waitForWinner!')
+      setIsWaitForWinner(true)
     })
     
     
@@ -153,12 +154,7 @@ function App() {
     if (comparison) {      
       //set first round to false after the first play
       if(isFirstRound) setIsFirstRound(isFirstRound => !isFirstRound)   
-
-      //check if I have 0 hand
-      if(myCards.length === mySelectedCards.length) {
-        setMyCards([])
-        return socket.emit('emptyHand', {socketId: socket.id, room: players[0].room})
-      }
+     
 
       //tells the server my played cards
           //if 5 cards send an object with rank
@@ -171,6 +167,12 @@ function App() {
 
       //end my turn
       setIsMyRound(false)      
+
+      //check if I have 0 hand
+      if(myCards.length === mySelectedCards.length) {
+        setMyCards([])
+        return socket.emit('emptyHand', {socketId: socket.id, room: players[0].room})
+      }
 
       //delete the played cards in myCards state
       setMyCards(prevMyCards => {
@@ -227,8 +229,8 @@ function App() {
         <OppositeCards handsNum={players[opponents[1]].numberOfHands} />
         <LeftCards handsNum={players[opponents[2]].numberOfHands} />
         <RightCards handsNum={players[opponents[0]].numberOfHands} />
-        {isMyRound && <div className="button play" onClick={play}>Play</div>}
-        {!isFirstRound && !isPassedByAllOthers && isMyRound && <div className="button pass" onClick={pass}>Pass</div>}
+        {!isWaitForWinner && isMyRound && <div className="button play" onClick={play}>Play</div>}
+        {!isWaitForWinner && !isFirstRound && !isPassedByAllOthers && isMyRound && <div className="button pass" onClick={pass}>Pass</div>}
         {isWinner && <div className= "button newGame" onClick={startNewGame}>New Game</div>}
       </div>
       }
