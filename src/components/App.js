@@ -37,6 +37,7 @@ function App() {
   const [isPassedByAllOthers, setIsPassedByAllOthers] = React.useState(false)
   const [isWinner, setIsWinner] = React.useState(false)
   const [isWaitForWinner, setIsWaitForWinner] = React.useState(false)
+  const [lackPlayersNum, setLackPlayersNum] = React.useState(null)
   const [isDisconnect, setIsDisconnect] = React.useState(false)
 
 
@@ -51,7 +52,10 @@ function App() {
     })
 
     //listen for anyone successfully joining a room
-    socket.on("waiting", () => {setIsWaiting(true)})
+    socket.on("waiting", lack => {
+      setIsWaiting(true)
+      setLackPlayersNum(lack)
+    })
     //listen for room filled
     socket.on("roomFilled", roomInfo => {
       //leave the waiting stage
@@ -244,7 +248,7 @@ function App() {
       {isDisconnect && <p>You are disconnected. Please refresh the page.</p>}
       {(!isWaiting && !isStart) && <Login socket={socket} />}
       {(!isWaiting && !isStart && isRoomFull) && <p>{isRoomFull}</p>}
-      {isWaiting && <Waiting />} 
+      {isWaiting && <Waiting lackPlayersNum={lackPlayersNum} />} 
       {isStart && 
       <div>
         <CurrentBiggestContainer cards={currentBiggest}/>
