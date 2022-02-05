@@ -13,12 +13,12 @@ export default function Login(props) {
 
     
     return (
-        <form onSubmit={handleSubmit}>
-            <input type="text" placeholder='Enter your name' ref={nameRef} />
-            <select ref={roomRef}>
+        <form onSubmit={handleSubmit} className="login">
+            <input type="text" placeholder='Enter your nickname' ref={nameRef} className="login--name" />
+            <select ref={roomRef} className="login--room">
                 <option value="0">Room1</option>
             </select>
-            <button>Enter</button>
+            <button className="login--button">Enter</button>
         </form>
     )
 }

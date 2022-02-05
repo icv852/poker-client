@@ -151,14 +151,56 @@ main {
     background-color: rgb(189, 95, 95);
 }
 
-.loginForm {
-    width: 50%;
+.login {
+    width: 30%;
     margin: auto;
     padding-top: 200px;
     display: flex;
     flex-direction: column;
 }
 
-.loginButton {
+.login--name {
+    height: 35px;
+    background-color: lightsteelblue;
+    border: solid 3px rgb(49, 92, 128);
+    margin-bottom: 20px;
+    font-weight: bold;
+    font-size: large;
+    color: rgb(49, 92, 128);
+    padding-left: 15px;
+}
+
+.login--room {
+    height: 35px;
+    background-color: lightsteelblue;
+    border: solid 3px rgb(49, 92, 128);
+    font-weight: bold;
+    font-size: large;
+    color: rgb(49, 92, 128);
+    padding-left: 15px;
+    margin-bottom: 50px;
+}
+
+.login--button {
+    width: 40%;
+    height: 60px;
+    background-color: lightsteelblue;
+    border: solid 3px rgb(49, 92, 128);
+    font-weight: bold;
+    font-size:x-large;
+    color: rgb(49, 92, 128);
     margin: auto;
+    cursor: pointer;
+}
+
+.login--button:active {
+    transform: translateY(4px);
+}
+
+
+
+
+
+.login ::placeholder {
+    color: rgb(139, 139, 139)
 }
