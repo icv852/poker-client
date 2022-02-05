@@ -14,9 +14,9 @@ import comparingCardRanks from '../logics/comparingCardRanks'
 import sortMyHands from '../logics/sortMyHands'
 
 //construct a new socket which doesn't change when rerender
-const socket = io("https://victorbig2.herokuapp.com/");
+// const socket = io("https://victorbig2.herokuapp.com/");
 //FOR DEV
-// const socket = io("http://localhost:5000");
+const socket = io("http://localhost:5000");
 
 
 function App() {  
@@ -31,6 +31,7 @@ function App() {
   const [myCards, setMyCards] = React.useState(null)
   const [currentBiggest, setCurrentBiggest] = React.useState([])
   const [currentBiggestRank, setCurrentBiggestRank] = React.useState([]) //for 5 cards comparison only
+  const [currentRoundPlayer, setCurrentRoundPlayer] = React.useState(null)
   const [isMyRound, setIsMyRound] = React.useState(false)
   const [isFirstRound, setIsFirstRound] = React.useState(false)
   const [isPassedByAllOthers, setIsPassedByAllOthers] = React.useState(false)
@@ -97,6 +98,11 @@ function App() {
     socket.on("dealingCards", deck => {
       setMyCards(deck)
       setIsStart(true) //start the game after all variables are confirmed      
+    })
+
+    //server tells who the current round player is
+    socket.on("whoIsCurrentRoundPlayer", pid => {
+      setCurrentRoundPlayer(pid)
     })
 
     //listen if it is first round
@@ -242,7 +248,7 @@ function App() {
       {isStart && 
       <div>
         <CurrentBiggestContainer cards={currentBiggest}/>
-        <PlayersNameAndScore players={players} opponents={opponents} />
+        <PlayersNameAndScore players={players} opponents={opponents} currentRoundPlayer={currentRoundPlayer} isWaitForWinner={isWaitForWinner} />
         <MyCards cards={myCards} selectCard={selectCard} dragCard={dragCard}/>
         <OppositeCards handsNum={players[opponents[1]].numberOfHands} />
         <LeftCards handsNum={players[opponents[2]].numberOfHands} />

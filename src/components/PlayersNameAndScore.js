@@ -1,16 +1,22 @@
 import React from 'react'
 
-export default function PlayersNameAndScore({players, opponents}) {    
+export default function PlayersNameAndScore({players, opponents, currentRoundPlayer, isWaitForWinner}) {    
 
     //create 4 score styles objects
     let scoreStyles = [{}, {}, {}, {}]
 
     for (let i = 0; i < opponents.length; i++) {
+        //if score < 0 become red name and score
         if (players[opponents[i]].score < 0) {
-            scoreStyles[i] = {color: 'red'}
+            scoreStyles[i]['color'] = 'red'
+        }
+        
+        //show a border to show the current player
+        if (!isWaitForWinner && opponents[i] === currentRoundPlayer) {
+            scoreStyles[i]['border'] = 'black solid 2px'
+            scoreStyles[i]['padding'] = '10px 15px'
         }
     }
-
 
     return (
         <div className="playersNameAndScore">            
