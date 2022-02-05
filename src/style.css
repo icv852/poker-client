@@ -86,29 +86,69 @@ main {
     position: absolute;
     width: 100px;
     height: 70px;
-    background-color:palegreen;
     justify-content: center;
     align-items: center;
+    border-radius: 50%;
+    font-size:larger;
+    border: 2px solid;
+    transition-duration: 0.1s;
 }
 
-.play {    
+.button:hover {
+    border-color: white;
+}
+
+.button:active {
+    transform: translateY(4px);
+    color: white;
+}
+
+.play {        
+    background-color:palegreen;
+    border-color:#3e8e41;
+    color:#3e8e41;
     top: 470px;
-    left: 800px;
+    left: 800px;    
+}
+
+.play:active {
+    background-color:#48a149;    
 }
 
 .pass {    
+    background-color: rgb(165, 165, 165);
+    border-color:rgb(90, 90, 90);
+    color:rgb(90, 90, 90);
     top: 470px;
     left: 500px;
 }
 
-.newGame {
-    top: 700px;
-    left: 50px;
+.pass:active {
+    background-color: rgb(124, 124, 124);
 }
 
 .sort {
     top: 700px;
     left: 1250px;
+    background-color:wheat;
+    color:rgb(153, 139, 112)
+}
+
+.sort:active {
+    background-color: rgb(185, 168, 134)
+}
+
+.newGame {
+    top: 700px;
+    left: 50px;
+    width: 150px;
+    border-radius: 10%;
+    background-color: rgb(255, 130, 130);
+    color:rgb(175, 84, 84);
+}
+
+.newGame:active {
+    background-color: rgb(189, 95, 95);
 }
 
 .loginForm {

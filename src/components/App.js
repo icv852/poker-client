@@ -14,7 +14,9 @@ import comparingCardRanks from '../logics/comparingCardRanks'
 import sortMyHands from '../logics/sortMyHands'
 
 //construct a new socket which doesn't change when rerender
-const socket = io("https://victorbig2.herokuapp.com/");
+// const socket = io("https://victorbig2.herokuapp.com/");
+//FOR DEV
+const socket = io("http://localhost:5000");
 
 
 function App() {  
