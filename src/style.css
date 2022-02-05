@@ -197,10 +197,14 @@ main {
     transform: translateY(4px);
 }
 
-
-
-
-
 .login ::placeholder {
     color: rgb(139, 139, 139)
+}
+
+.waiting {
+    color: solid 3px rgb(49, 92, 128);
+    font-size: large;    
+    position: absolute;
+    left: 20px;
+    top: 20px;
 }

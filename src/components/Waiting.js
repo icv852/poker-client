@@ -2,6 +2,6 @@ import React from 'react'
 
 export default function Waiting() {
     return (
-        <div>Waiting for others...</div>
+        <div className='waiting'>Waiting for new players...</div>
     )
 }
