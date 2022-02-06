@@ -240,9 +240,6 @@ function App() {
     setMyCards(newArray)
   }
 
-  //FOR DEV
-  console.log('players', players)
-
   return (
     <main>
       {isDisconnect && <p>You are disconnected. Please refresh the page.</p>}
@@ -252,7 +249,7 @@ function App() {
       {isStart && 
       <div>
         <CurrentBiggestContainer cards={currentBiggest}/>
-        <PlayersNameAndScore players={players} opponents={opponents} currentRoundPlayer={currentRoundPlayer} isWaitForWinner={isWaitForWinner} />
+        <PlayersNameAndScore players={players} opponents={opponents} currentRoundPlayer={currentRoundPlayer} currentBiggest={currentBiggest} isWaitForWinner={isWaitForWinner} />
         <MyCards cards={myCards} selectCard={selectCard} dragCard={dragCard}/>
         <OppositeCards handsNum={players[opponents[1]].numberOfHands} />
         <LeftCards handsNum={players[opponents[2]].numberOfHands} />
