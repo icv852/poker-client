@@ -42,9 +42,7 @@ export default function comparingCardRanks(mine, biggest, biggestRank, isFirstRo
         //compare number
         if(biggest[0].number > mine[0].number) return false
         //compare suit when same number
-        else if(biggest[0].number === mine[0].number) {
-            if(biggest[1].suit > mine[1].suit) return false
-        }
+        else if(biggest[0].number === mine[0].number && biggest[1].suit > mine[1].suit) return false
         else return true  
     }
 
