@@ -115,9 +115,13 @@ function App() {
     })
 
     //listen if it is my round
-    socket.on("currentRound", isPassedByAllOthers => {
-      setIsMyRound(true)          
+    socket.on("currentRound", isPassedByAllOthers => {      
+      setIsMyRound(true)                
       setIsPassedByAllOthers(isPassedByAllOthers)
+      //play alert sound
+      const alertSound = new Audio('alertSound.mp3')
+      alertSound.loop = false
+      alertSound.play()
     })    
 
     //server provides the latest currentBiggest and currentBiggestRank after a player plays
