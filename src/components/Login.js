@@ -14,7 +14,7 @@ export default function Login(props) {
     
     return (
         <form onSubmit={handleSubmit} className="login">
-            <input type="text" placeholder='Enter your nickname' ref={nameRef} className="login--name" />
+            <input type="text" placeholder='Enter your nickname' ref={nameRef} className="login--name" required="required" />
             <select ref={roomRef} className="login--room">
                 <option value="0">Room 1</option>
                 <option value="1">Room 2</option>
