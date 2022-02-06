@@ -42,6 +42,10 @@ function App() {
   const [lackPlayersNum, setLackPlayersNum] = React.useState(null)
   const [isDisconnect, setIsDisconnect] = React.useState(false)
 
+  //load alert sound
+  const alertSound = new Audio('alertSound.mp3')
+  alertSound.loop = false
+
   //socket listeners
   React.useEffect(() => {    
     //connect to server
@@ -120,9 +124,7 @@ function App() {
     socket.on("currentRound", isPassedByAllOthers => {      
       setIsMyRound(true)                
       setIsPassedByAllOthers(isPassedByAllOthers)
-      //play alert sound
-      const alertSound = new Audio('alertSound.mp3')
-      alertSound.loop = false
+      //play alert sound      
       alertSound.play()
     })    
 
