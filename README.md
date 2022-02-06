@@ -1,6 +1,6 @@
 # Big 2
 
-This is a online Big 2 app written in React.js. 
+This is a online Big 2 app with React.js front-end and Node.js back-end.
 
 When 4 clients have entered the same room, the game will start automatically.
 
