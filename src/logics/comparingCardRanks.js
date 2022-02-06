@@ -32,8 +32,7 @@ export default function comparingCardRanks(mine, biggest, biggestRank, isFirstRo
     //when I play 2 cards:
     if(mine.length === 2) {
         //sort my cards based on suits
-        // mine.sort((a, b) => a.suit - b.suit)
-        console.log(mine.sort((a, b) => a.suit - b.suit))    //FOR DEV
+        mine.sort((a, b) => a.suit - b.suit)
         //if mine is not a pair return false
         if(mine[0].number !== mine[1].number) return false    
         //if biggest not exists return true
@@ -49,8 +48,7 @@ export default function comparingCardRanks(mine, biggest, biggestRank, isFirstRo
     //When I play 3 cards:
     if(mine.length === 3) {
         //sort my cards based on suits
-        console.log(mine.sort((a, b) => a.suit - b.suit)) //FOR DEV
-        // mine.sort((a, b) => a.suit - b.suit) 
+        mine.sort((a, b) => a.suit - b.suit) 
         //if mine is not triple return false
         if(!(mine[0].number === mine[1].number && mine[1].number === mine[2].number)) return false
         //if biggest not exists return true
@@ -76,7 +74,6 @@ export default function comparingCardRanks(mine, biggest, biggestRank, isFirstRo
         }
 
         //sort the cards based on number (from small to big)
-        console.log(mine.sort((a, b) => a.number - b.number)) //FOR DEV
         mine.sort((a, b) => a.number - b.number)
 
         //create two arrays to store my cards numbers and suits

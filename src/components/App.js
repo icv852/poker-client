@@ -1,6 +1,7 @@
 import React from 'react'
 import { io } from 'socket.io-client'
 
+//import components
 import Login from './Login'
 import CurrentBiggestContainer from './CurrentBiggest'
 import PlayersNameAndScore from './PlayersNameAndScore'
@@ -10,6 +11,7 @@ import LeftCards from './LeftCards'
 import RightCards from './RightCards'
 import Waiting from './Waiting'
 
+//import logics
 import comparingCardRanks from '../logics/comparingCardRanks'
 import sortMyHands from '../logics/sortMyHands'
 
@@ -40,7 +42,7 @@ function App() {
   const [lackPlayersNum, setLackPlayersNum] = React.useState(null)
   const [isDisconnect, setIsDisconnect] = React.useState(false)
 
-
+  //socket listeners
   React.useEffect(() => {    
     //connect to server
     socket.on("connect", () => {
@@ -177,9 +179,6 @@ function App() {
 
     //comparing mySelectedCards with currentBiggest, returning boolean (if 5-card case returning an object with indicator)
     const comparison = comparingCardRanks(mySelectedCards, currentBiggest, currentBiggestRank, isFirstRound)
-    
-    //FOR DEV
-    console.log(comparison)
 
     //if my cards are bigger, do the following
     if (comparison) {      
