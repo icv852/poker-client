@@ -46,7 +46,7 @@ function App() {
   React.useEffect(() => {    
     //connect to server
     socket.on("connect", () => {
-      console.log(`You are connected! id:${socket.id}`)
+      // console.log(`You are connected! id:${socket.id}`)
     })
     //if the room is full
     socket.on("full", message => {
@@ -147,7 +147,6 @@ function App() {
     //listen if someone disconnected
     socket.on("otherDisconnect", () => {
       setIsDisconnect(true)
-      console.log("someone disconnected!")
       socket.disconnect()
     })
     
