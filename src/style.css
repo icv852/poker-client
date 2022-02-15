@@ -206,3 +206,23 @@ main {
     left: 20px;
     top: 20px;
 }
+
+.leaderboard {
+    background-color: white;
+    width: 28%;
+    margin: auto;
+    margin-top: 100px;
+    text-align: center;
+    background-color: lightsteelblue;
+    color: rgb(49, 92, 128);
+    border: rgb(49, 92, 128) 2px solid;
+}
+
+.leaderboard th {
+    height: 40px;
+    border-bottom: 2px rgb(49, 92, 128) solid;
+}
+
+.leaderboard td {
+    height: 30px;
+}

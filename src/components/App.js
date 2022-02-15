@@ -10,20 +10,22 @@ import OppositeCards from './OppositeCards'
 import LeftCards from './LeftCards'
 import RightCards from './RightCards'
 import Waiting from './Waiting'
+import Leaderboard from './Leaderboard'
 
 //import logics
 import comparingCardRanks from '../logics/comparingCardRanks'
 import sortMyHands from '../logics/sortMyHands'
 
 //construct a new socket which doesn't change when rerender
-const socket = io("https://victorbig2.herokuapp.com/");
+// const socket = io("https://victorbig2.herokuapp.com/");
 //FOR DEV
-// const socket = io("http://localhost:5000");
+const socket = io("http://localhost:5000");
 
 
 function App() {  
   const [players, setPlayers] = React.useState([])  
   const [opponents, setOpponents] = React.useState([])
+  const [leaderboard, setLeaderboard] = React.useState([])
 
   const [isRoomFull, setIsRoomFull] = React.useState(false)
   const [isWaiting, setIsWaiting] = React.useState(false)
@@ -52,6 +54,12 @@ function App() {
     socket.on("connect", () => {
       // console.log(`You are connected! id:${socket.id}`)
     })
+
+    //receive leaderboard data
+    socket.on("leaderboard", leaderboard => {
+      setLeaderboard(leaderboard)
+    })
+
     //if the room is full
     socket.on("full", message => {
       setIsRoomFull(message)
@@ -244,10 +252,12 @@ function App() {
     setMyCards(newArray)
   }
 
+
   return (
     <main>
       {isDisconnect && <p>You are disconnected. Please refresh the page.</p>}
       {(!isWaiting && !isStart) && <Login socket={socket} />}
+      {(!isWaiting && !isStart) && <Leaderboard data={leaderboard} />}
       {(!isWaiting && !isStart && isRoomFull) && <p>{isRoomFull}</p>}
       {isWaiting && <Waiting lackPlayersNum={lackPlayersNum} />} 
       {isStart && 
