@@ -45,8 +45,8 @@ function App() {
   const [isDisconnect, setIsDisconnect] = React.useState(false)
 
   //load alert sound
-  const alertSound = new Audio('alertSound.mp3')
-  alertSound.loop = false
+  // const alertSound = new Audio('alertSound.mp3')
+  // alertSound.loop = false
 
   //socket listeners
   React.useEffect(() => {    
@@ -133,6 +133,8 @@ function App() {
       setIsMyRound(true)                
       setIsPassedByAllOthers(isPassedByAllOthers)
       //play alert sound      
+      const alertSound = new Audio('alertSound.mp3')
+      alertSound.loop = false
       alertSound.play()
     })    
 
