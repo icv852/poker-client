@@ -1,281 +1,318 @@
-import React from 'react'
-import { io } from 'socket.io-client'
+import React from "react";
+import { io } from "socket.io-client";
 
 //import components
-import Login from './Login'
-import CurrentBiggestContainer from './CurrentBiggest'
-import PlayersNameAndScore from './PlayersNameAndScore'
-import MyCards from './MyCards'
-import OppositeCards from './OppositeCards'
-import LeftCards from './LeftCards'
-import RightCards from './RightCards'
-import Waiting from './Waiting'
-import Leaderboard from './Leaderboard'
+import Login from "./Login";
+import CurrentBiggestContainer from "./CurrentBiggest";
+import PlayersNameAndScore from "./PlayersNameAndScore";
+import MyCards from "./MyCards";
+import OppositeCards from "./OppositeCards";
+import LeftCards from "./LeftCards";
+import RightCards from "./RightCards";
+import Waiting from "./Waiting";
+import Leaderboard from "./Leaderboard";
 
 //import logics
-import comparingCardRanks from '../logics/comparingCardRanks'
-import sortMyHands from '../logics/sortMyHands'
+import comparingCardRanks from "../logics/comparingCardRanks";
+import sortMyHands from "../logics/sortMyHands";
 
 //construct a new socket which doesn't change when rerender
-const socket = io("https://victorbig2.herokuapp.com/");
+// const socket = io("https://victorbig2.herokuapp.com/");
+const socket = io("https://bigtwo-vic.herokuapp.com/");
+
 //FOR DEV
 // const socket = io("http://localhost:5000");
 
+function App() {
+  const [players, setPlayers] = React.useState([]);
+  const [opponents, setOpponents] = React.useState([]);
+  const [leaderboard, setLeaderboard] = React.useState([]);
 
-function App() {  
-  const [players, setPlayers] = React.useState([])  
-  const [opponents, setOpponents] = React.useState([])
-  const [leaderboard, setLeaderboard] = React.useState([])
-
-  const [isRoomFull, setIsRoomFull] = React.useState(false)
-  const [isWaiting, setIsWaiting] = React.useState(false)
-  const [isStart, setIsStart] = React.useState(false)
+  const [isRoomFull, setIsRoomFull] = React.useState(false);
+  const [isWaiting, setIsWaiting] = React.useState(false);
+  const [isStart, setIsStart] = React.useState(false);
 
   //in game states
-  const [myCards, setMyCards] = React.useState(null)
-  const [currentBiggest, setCurrentBiggest] = React.useState([])
-  const [currentBiggestRank, setCurrentBiggestRank] = React.useState([]) //for 5 cards comparison only
-  const [currentRoundPlayer, setCurrentRoundPlayer] = React.useState(null)
-  const [isMyRound, setIsMyRound] = React.useState(false)
-  const [isFirstRound, setIsFirstRound] = React.useState(false)
-  const [isPassedByAllOthers, setIsPassedByAllOthers] = React.useState(false)
-  const [isWinner, setIsWinner] = React.useState(false)
-  const [isWaitForWinner, setIsWaitForWinner] = React.useState(false)
-  const [lackPlayersNum, setLackPlayersNum] = React.useState(null)
-  const [isDisconnect, setIsDisconnect] = React.useState(false)
+  const [myCards, setMyCards] = React.useState(null);
+  const [currentBiggest, setCurrentBiggest] = React.useState([]);
+  const [currentBiggestRank, setCurrentBiggestRank] = React.useState([]); //for 5 cards comparison only
+  const [currentRoundPlayer, setCurrentRoundPlayer] = React.useState(null);
+  const [isMyRound, setIsMyRound] = React.useState(false);
+  const [isFirstRound, setIsFirstRound] = React.useState(false);
+  const [isPassedByAllOthers, setIsPassedByAllOthers] = React.useState(false);
+  const [isWinner, setIsWinner] = React.useState(false);
+  const [isWaitForWinner, setIsWaitForWinner] = React.useState(false);
+  const [lackPlayersNum, setLackPlayersNum] = React.useState(null);
+  const [isDisconnect, setIsDisconnect] = React.useState(false);
 
   //load alert sound
   // const alertSound = new Audio('alertSound.mp3')
   // alertSound.loop = false
 
   //socket listeners
-  React.useEffect(() => {    
+  React.useEffect(() => {
     //connect to server
     socket.on("connect", () => {
       // console.log(`You are connected! id:${socket.id}`)
-    })
+    });
 
     //receive leaderboard data
-    socket.on("leaderboard", leaderboard => {
-      setLeaderboard(leaderboard)
-    })
+    socket.on("leaderboard", (leaderboard) => {
+      setLeaderboard(leaderboard);
+    });
 
     //if the room is full
-    socket.on("full", message => {
-      setIsRoomFull(message)
-    })
+    socket.on("full", (message) => {
+      setIsRoomFull(message);
+    });
 
     //listen for anyone successfully joining a room
-    socket.on("waiting", lack => {
-      setIsWaiting(true)
-      setLackPlayersNum(lack)
-    })
+    socket.on("waiting", (lack) => {
+      setIsWaiting(true);
+      setLackPlayersNum(lack);
+    });
     //listen for room filled
-    socket.on("roomFilled", roomInfo => {
+    socket.on("roomFilled", (roomInfo) => {
       //leave the waiting stage
-      setIsWaiting(false)
+      setIsWaiting(false);
       //get room info from server
-      setPlayers(roomInfo)
-    })
+      setPlayers(roomInfo);
+    });
     //assign playerIds when room is filled
-    socket.on("assignPlayerId", pid => {
+    socket.on("assignPlayerId", (pid) => {
       setOpponents(() => {
         let opponentsArray;
         //the last element of array stores my own PID
         switch (pid) {
           case 0:
-            opponentsArray = [1, 2, 3, 0]
-            break
+            opponentsArray = [1, 2, 3, 0];
+            break;
           case 1:
-            opponentsArray = [2, 3, 0, 1]
-            break
+            opponentsArray = [2, 3, 0, 1];
+            break;
           case 2:
-            opponentsArray = [3, 0, 1, 2]
-            break
+            opponentsArray = [3, 0, 1, 2];
+            break;
           case 3:
-            opponentsArray = [0, 1, 2, 3]
-            break
+            opponentsArray = [0, 1, 2, 3];
+            break;
           default:
-            break
+            break;
         }
-        return opponentsArray
-      })    
-    })
+        return opponentsArray;
+      });
+    });
 
     //server requires clearing old states to start a new game
     socket.on("clearOldStates", () => {
       // setMyCards(null)
-      setIsMyRound(false)
-      setIsFirstRound(false)
-      setIsPassedByAllOthers(false)
-      setIsWinner(false)
-      setIsWaitForWinner(false)
-    })
+      setIsMyRound(false);
+      setIsFirstRound(false);
+      setIsPassedByAllOthers(false);
+      setIsWinner(false);
+      setIsWaitForWinner(false);
+    });
 
     //server dealing cards to players individually
-    socket.on("dealingCards", deck => {
-      setMyCards(deck)
-      setIsStart(true) //start the game after all variables are confirmed      
-    })
+    socket.on("dealingCards", (deck) => {
+      setMyCards(deck);
+      setIsStart(true); //start the game after all variables are confirmed
+    });
 
     //server tells who the current round player is
-    socket.on("whoIsCurrentRoundPlayer", pid => {
-      setCurrentRoundPlayer(pid)
-    })
+    socket.on("whoIsCurrentRoundPlayer", (pid) => {
+      setCurrentRoundPlayer(pid);
+    });
 
     //listen if it is first round
     socket.on("firstRound", () => {
-      setIsFirstRound(true)
-    })
+      setIsFirstRound(true);
+    });
 
     //listen if it is my round
-    socket.on("currentRound", isPassedByAllOthers => {      
-      setIsMyRound(true)                
-      setIsPassedByAllOthers(isPassedByAllOthers)
-      //play alert sound      
-      const alertSound = new Audio('alertSound.mp3')
-      alertSound.loop = false
-      alertSound.play()
-    })    
+    socket.on("currentRound", (isPassedByAllOthers) => {
+      setIsMyRound(true);
+      setIsPassedByAllOthers(isPassedByAllOthers);
+      //play alert sound
+      const alertSound = new Audio("alertSound.mp3");
+      alertSound.loop = false;
+      alertSound.play();
+    });
 
     //server provides the latest currentBiggest and currentBiggestRank after a player plays
-    socket.on("updateRound", latestInfo => {
-      setCurrentBiggest(latestInfo.currentBiggest)
-      setCurrentBiggestRank(latestInfo.currentBiggestRank)
-      setPlayers(latestInfo.players)
-    })
+    socket.on("updateRound", (latestInfo) => {
+      setCurrentBiggest(latestInfo.currentBiggest);
+      setCurrentBiggestRank(latestInfo.currentBiggestRank);
+      setPlayers(latestInfo.players);
+    });
 
     //listen if I am winner
     socket.on("win", () => {
-      setIsWinner(true)
-    })
+      setIsWinner(true);
+    });
 
     //listen if the game is finished
-    socket.on("waitForWinner", players => {
-      setPlayers(players)
-      setIsWaitForWinner(true)      
-    })
+    socket.on("waitForWinner", (players) => {
+      setPlayers(players);
+      setIsWaitForWinner(true);
+    });
 
     //listen if someone disconnected
     socket.on("otherDisconnect", () => {
-      setIsDisconnect(true)
-      socket.disconnect()
-    })
-    
-    
+      setIsDisconnect(true);
+      socket.disconnect();
+    });
+
     return () => {
-      socket.removeAllListeners()
-    }
-  }, [])
+      socket.removeAllListeners();
+    };
+  }, []);
 
   function selectCard(index) {
-    setMyCards(prevMyCards => prevMyCards.map(card => {
-      if (card.myCardsIndex === index) {
-        return {...card, selected: !card.selected}
-      }
-      return card
-    }))
+    setMyCards((prevMyCards) =>
+      prevMyCards.map((card) => {
+        if (card.myCardsIndex === index) {
+          return { ...card, selected: !card.selected };
+        }
+        return card;
+      })
+    );
   }
 
   function play() {
     //push my selected cards into a new array
-    const mySelectedCards = []
-    const mySelectedCardsAllIndexes = []
+    const mySelectedCards = [];
+    const mySelectedCardsAllIndexes = [];
     for (let i = 0; i < myCards.length; i++) {
-      if(myCards[i].selected) {
-        mySelectedCards.push(myCards[i])
-        mySelectedCardsAllIndexes.push(myCards[i].allCardsIndex)
+      if (myCards[i].selected) {
+        mySelectedCards.push(myCards[i]);
+        mySelectedCardsAllIndexes.push(myCards[i].allCardsIndex);
       }
     }
 
     //comparing mySelectedCards with currentBiggest, returning boolean (if 5-card case returning an object with indicator)
-    const comparison = comparingCardRanks(mySelectedCards, currentBiggest, currentBiggestRank, isFirstRound)
+    const comparison = comparingCardRanks(
+      mySelectedCards,
+      currentBiggest,
+      currentBiggestRank,
+      isFirstRound
+    );
 
     //if my cards are bigger, do the following
-    if (comparison) {      
+    if (comparison) {
       //set first round to false after the first play
-      if(isFirstRound) setIsFirstRound(isFirstRound => !isFirstRound)   
-     
+      if (isFirstRound) setIsFirstRound((isFirstRound) => !isFirstRound);
 
       //tells the server my played cards
-          //if 5 cards send an object with rank
+      //if 5 cards send an object with rank
       if (comparison.rank) {
-        socket.emit('play', {cards: mySelectedCards, rank: comparison.rank})
+        socket.emit("play", { cards: mySelectedCards, rank: comparison.rank });
       } else {
-          //fewer than 5 cards
-        socket.emit('play', mySelectedCards)
+        //fewer than 5 cards
+        socket.emit("play", mySelectedCards);
       }
 
       //end my turn
-      setIsMyRound(false)      
+      setIsMyRound(false);
 
       //check if I have 0 hand
-      if(myCards.length === mySelectedCards.length) {
-        setMyCards([])
-        return socket.emit('emptyHand', {socketId: socket.id, room: players[0].room})
+      if (myCards.length === mySelectedCards.length) {
+        setMyCards([]);
+        return socket.emit("emptyHand", {
+          socketId: socket.id,
+          room: players[0].room,
+        });
       }
 
       //delete the played cards in myCards state
-      setMyCards(prevMyCards => {
-        const newMyCardsArray = []
-        let newMyCardsIndex = 0
+      setMyCards((prevMyCards) => {
+        const newMyCardsArray = [];
+        let newMyCardsIndex = 0;
         for (let i = 0; i < prevMyCards.length; i++) {
-          if(!prevMyCards[i].selected) {
+          if (!prevMyCards[i].selected) {
             const cardWithNewMyCardIndex = {
               ...prevMyCards[i],
-              myCardsIndex: newMyCardsIndex
-            }
-            newMyCardsArray.push(cardWithNewMyCardIndex)
-            newMyCardsIndex++
+              myCardsIndex: newMyCardsIndex,
+            };
+            newMyCardsArray.push(cardWithNewMyCardIndex);
+            newMyCardsIndex++;
           }
         }
-        return newMyCardsArray
-      })
-    }      
+        return newMyCardsArray;
+      });
+    }
   }
 
   function pass() {
     //tells the server I passed
-    socket.emit('pass', myCards)
+    socket.emit("pass", myCards);
     //end my turn
-    setIsMyRound(false) 
+    setIsMyRound(false);
   }
-  
+
   function startNewGame() {
-    socket.emit('requireNewGame', players[0].room)
+    socket.emit("requireNewGame", players[0].room);
   }
 
   function sort() {
-    const sortedMyCards = sortMyHands(myCards)
-    setMyCards(sortedMyCards)
+    const sortedMyCards = sortMyHands(myCards);
+    setMyCards(sortedMyCards);
   }
 
   function dragCard(newArray) {
-    setMyCards(newArray)
+    setMyCards(newArray);
   }
-
 
   return (
     <main>
       {isDisconnect && <p>You are disconnected. Please refresh the page.</p>}
-      {(!isWaiting && !isStart) && <Login socket={socket} />}
-      {(!isWaiting && !isStart) && <Leaderboard data={leaderboard} />}
-      {(!isWaiting && !isStart && isRoomFull) && <p>{isRoomFull}</p>}
-      {isWaiting && <Waiting lackPlayersNum={lackPlayersNum} />} 
-      {isStart && 
-      <div>
-        <CurrentBiggestContainer cards={currentBiggest}/>
-        <PlayersNameAndScore players={players} opponents={opponents} currentRoundPlayer={currentRoundPlayer} currentBiggest={currentBiggest} isWaitForWinner={isWaitForWinner} />
-        <MyCards cards={myCards} selectCard={selectCard} dragCard={dragCard}/>
-        <OppositeCards handsNum={players[opponents[1]].numberOfHands} />
-        <LeftCards handsNum={players[opponents[2]].numberOfHands} />
-        <RightCards handsNum={players[opponents[0]].numberOfHands} />
-        {!isWaitForWinner && isMyRound && <div className="button play" onClick={play}>Play</div>}
-        {!isWaitForWinner && !isFirstRound && !isPassedByAllOthers && isMyRound && <div className="button pass" onClick={pass}>Pass</div>}
-        {isWinner && <div className= "button newGame" onClick={startNewGame}>New Game</div>}
-        {!isWaitForWinner && <div className="button sort" onClick={sort}>Sort</div>}
-      </div>
-      }
+      {!isWaiting && !isStart && <Login socket={socket} />}
+      {!isWaiting && !isStart && <Leaderboard data={leaderboard} />}
+      {!isWaiting && !isStart && isRoomFull && <p>{isRoomFull}</p>}
+      {isWaiting && <Waiting lackPlayersNum={lackPlayersNum} />}
+      {isStart && (
+        <div>
+          <CurrentBiggestContainer cards={currentBiggest} />
+          <PlayersNameAndScore
+            players={players}
+            opponents={opponents}
+            currentRoundPlayer={currentRoundPlayer}
+            currentBiggest={currentBiggest}
+            isWaitForWinner={isWaitForWinner}
+          />
+          <MyCards
+            cards={myCards}
+            selectCard={selectCard}
+            dragCard={dragCard}
+          />
+          <OppositeCards handsNum={players[opponents[1]].numberOfHands} />
+          <LeftCards handsNum={players[opponents[2]].numberOfHands} />
+          <RightCards handsNum={players[opponents[0]].numberOfHands} />
+          {!isWaitForWinner && isMyRound && (
+            <div className="button play" onClick={play}>
+              Play
+            </div>
+          )}
+          {!isWaitForWinner &&
+            !isFirstRound &&
+            !isPassedByAllOthers &&
+            isMyRound && (
+              <div className="button pass" onClick={pass}>
+                Pass
+              </div>
+            )}
+          {isWinner && (
+            <div className="button newGame" onClick={startNewGame}>
+              New Game
+            </div>
+          )}
+          {!isWaitForWinner && (
+            <div className="button sort" onClick={sort}>
+              Sort
+            </div>
+          )}
+        </div>
+      )}
     </main>
   );
 }
