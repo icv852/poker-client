@@ -18,7 +18,9 @@ import sortMyHands from "../logics/sortMyHands";
 
 //construct a new socket which doesn't change when rerender
 // const socket = io("https://victorbig2.herokuapp.com/");
-const socket = io("https://bigtwo-vic.herokuapp.com/");
+
+const SERVER_URL = window.SERVER_URL || "http://localhost:15000"
+const socket = io(SERVER_URL);
 
 //FOR DEV
 // const socket = io("http://localhost:5000");
@@ -180,6 +182,8 @@ function App() {
   }
 
   function play() {
+    console.debug("play button clicked")
+
     //push my selected cards into a new array
     const mySelectedCards = [];
     const mySelectedCardsAllIndexes = [];
@@ -198,8 +202,20 @@ function App() {
       isFirstRound
     );
 
+    console.debug("#0",
+      {
+        comparison,
+        mySelectedCards,
+        currentBiggest,
+        currentBiggestRank,
+        isFirstRound
+      }
+    )
+
     //if my cards are bigger, do the following
     if (comparison) {
+      console.debug("#1")
+
       //set first round to false after the first play
       if (isFirstRound) setIsFirstRound((isFirstRound) => !isFirstRound);
 
@@ -224,6 +240,8 @@ function App() {
         });
       }
 
+      console.debug("#2")
+
       //delete the played cards in myCards state
       setMyCards((prevMyCards) => {
         const newMyCardsArray = [];
@@ -240,6 +258,8 @@ function App() {
         }
         return newMyCardsArray;
       });
+
+      console.debug("#3")
     }
   }
 
