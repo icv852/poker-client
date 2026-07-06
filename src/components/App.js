@@ -10,7 +10,6 @@ import OppositeCards from "./OppositeCards";
 import LeftCards from "./LeftCards";
 import RightCards from "./RightCards";
 import Waiting from "./Waiting";
-// import Leaderboard from "./Leaderboard";
 
 //import logics
 import comparingCardRanks from "../logics/comparingCardRanks";
@@ -26,7 +25,6 @@ const socket = io("https://bigtwo-vic.herokuapp.com/");
 function App() {
   const [players, setPlayers] = React.useState([]);
   const [opponents, setOpponents] = React.useState([]);
-  // const [leaderboard, setLeaderboard] = React.useState([]);
 
   const [isRoomFull, setIsRoomFull] = React.useState(false);
   const [isWaiting, setIsWaiting] = React.useState(false);
@@ -55,11 +53,6 @@ function App() {
     socket.on("connect", () => {
       // console.log(`You are connected! id:${socket.id}`)
     });
-
-    //receive leaderboard data
-    // socket.on("leaderboard", (leaderboard) => {
-    //   setLeaderboard(leaderboard);
-    // });
 
     //if the room is full
     socket.on("full", (message) => {
@@ -267,7 +260,6 @@ function App() {
     <main>
       {isDisconnect && <p>You are disconnected. Please refresh the page.</p>}
       {!isWaiting && !isStart && <Login socket={socket} />}
-      {/* {!isWaiting && !isStart && <Leaderboard data={leaderboard} />} */}
       {!isWaiting && !isStart && isRoomFull && <p>{isRoomFull}</p>}
       {isWaiting && <Waiting lackPlayersNum={lackPlayersNum} />}
       {isStart && (
