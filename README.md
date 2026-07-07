@@ -1,7 +1,22 @@
-# Big 2
+# Big Two — Client
 
-This is a online Big 2 app with React.js front-end and Node.js back-end.
+React 17 frontend for the Big Two card game.
 
-When 4 clients have entered the same room, the game will start automatically.
+## Commands
 
-When 1 client refreshes or closes the browser, all players in the room will also be disconnected automatically.
+```bash
+npm start      # Dev server on port 3000
+npm run build  # Production build to build/
+```
+
+## Deploy
+
+```bash
+npm run build
+# rsync the build/ folder to the Droplet, then:
+docker compose up -d --build
+```
+
+## Stack
+
+Create React App, Socket.IO client, Bootstrap.
